@@ -2,25 +2,48 @@ const Song = require('../models/song.model');
 
 class SongService {
 	async getOneSong(songId) {
-		return Song.findById(songId);
+		try {
+			return Song.findById(songId);
+		} catch (error) {
+			throw new Error(error);
+		}
 	}
 
 	async getAllSong() {
-		return Song.find({});
+		try {
+			return Song.find({});
+		} catch (error) {
+			throw new Error(error);
+		}
 	}
 
-	async postOneSong(song) {
-		return new Song({ ...song }).save();
+	async createOneSong(newSong) {
+		try {
+			return new Song({ ...newSong }).save();
+		} catch (error) {
+			throw new Error(error);
+		}
 	}
 
 	async updateOneSong(songId, songUpdate) {
-		const song = await Song.findById(songId);
-		song.name = songUpdate.name;
-		return song.save();
+		try {
+			console.log(songId);
+
+			const song = await Song.findById(songId);
+			console.log({ song });
+			song.name = songUpdate.name;
+			return song.save();
+		} catch (error) {
+			throw new Error(error);
+		}
 	}
 
 	async deleteOneSong(songId) {
-		Song.findByIdAndDelete(songId);
+		try {
+			return Song.findByIdAndDelete(songId);
+		} catch (error) {
+			throw new Error(error);
+		}
 	}
 }
 

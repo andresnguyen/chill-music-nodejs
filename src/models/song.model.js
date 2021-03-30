@@ -8,19 +8,19 @@ const songSchema = new mongoose.Schema(
 		},
 		path: {
 			type: String,
-			required: true,
+			// required: true,
 		},
 		image: {
 			type: String,
-			required: true,
+			// required: true,
 		},
 		genre: {
 			type: Array,
-			required: true,
+			// required: true,
 		},
 		artists: {
 			type: Array,
-			required: true,
+			// required: true,
 		},
 		view: {
 			type: Number,
