@@ -1,9 +1,8 @@
-const express = require('express')
+const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.send('welcome my project')
-})
-
+	res.send('chill music vip pro welcome bro!');
+});
 
 module.exports = router;
