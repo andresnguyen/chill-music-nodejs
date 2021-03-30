@@ -18,4 +18,4 @@ db.connect()
 route(app)
 
 
-app.listen(process.env.PORT || 3001, () => console.log("running"))
+app.listen(process.env.PORT || 3001, () => console.log("server is running"))
