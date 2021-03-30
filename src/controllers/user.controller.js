@@ -10,7 +10,7 @@ class UserController {
 
 	async postOne(req, res, next) {}
 
-	async patchOne(req, res, next) {
+	async updateOne(req, res, next) {
 		const userId = req.params.id;
 	}
 

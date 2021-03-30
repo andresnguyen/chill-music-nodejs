@@ -7,11 +7,11 @@ const albumRoute = require('./album.route');
 const artistRoute = require('./artist.route');
 
 function route(app) {
-	app.use('users', userRoute);
-	app.use('songs', songRoute);
-	app.use('playlists', playlistRoute);
-	app.use('albums', albumRoute);
-	app.use('artists', artistRoute);
+	app.use('/users', userRoute);
+	app.use('/songs', songRoute);
+	app.use('/playlists', playlistRoute);
+	app.use('/albums', albumRoute);
+	app.use('/artists', artistRoute);
 	app.use('/', siteRoute);
 }
 
