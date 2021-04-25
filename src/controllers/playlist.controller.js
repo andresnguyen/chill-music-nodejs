@@ -1,5 +1,5 @@
-const Playlist = require('../models/playlist.model');
-const PlaylistService = require('../services/playlist.service');
+import Playlist from '../models/playlist.model';
+import PlaylistService from '../services/playlist.service';
 
 class PlaylistController {
 	async getAll(req, res, next) {
@@ -57,4 +57,4 @@ class PlaylistController {
 	}
 }
 
-module.exports = new PlaylistController();
+export default new PlaylistController();

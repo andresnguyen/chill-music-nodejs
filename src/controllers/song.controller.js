@@ -1,5 +1,4 @@
-const Song = require('../models/song.model');
-const SongService = require('../services/song.service');
+import SongService from '../services/song.service';
 
 class SongController {
 	async getAll(req, res, next) {
@@ -57,4 +56,4 @@ class SongController {
 	}
 }
 
-module.exports = new SongController();
+export default new SongController();

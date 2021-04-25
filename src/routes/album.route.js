@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const AlbumController = require('../controllers/album.controller');
+import AlbumController from '../controllers/album.controller';
 
 router.get('/', AlbumController.getAll);
 router.get('/:id', AlbumController.getOne);
@@ -8,4 +8,4 @@ router.post('/', AlbumController.postOne);
 router.patch('/:id', AlbumController.updateOne);
 router.delete('/:id', AlbumController.deleteOne);
 
-module.exports = router;
+export default router;

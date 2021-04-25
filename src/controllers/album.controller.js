@@ -1,6 +1,4 @@
-const Album = require('../models/album.model');
-const AlbumService = require('../services/album.service');
-
+import AlbumService from '../services/album.service';
 class AlbumController {
 	async getAll(req, res, next) {
 		try {
@@ -57,4 +55,4 @@ class AlbumController {
 	}
 }
 
-module.exports = new AlbumController();
+export default new AlbumController();

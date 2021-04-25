@@ -1,11 +1,11 @@
-const Song = require('../models/song.model');
+import Song from '../models/song.model';
 
 class SongService {
 	async getOneSong(songId) {
 		try {
 			return Song.findById(songId);
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -13,7 +13,7 @@ class SongService {
 		try {
 			return Song.find({});
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -21,7 +21,7 @@ class SongService {
 		try {
 			return new Song({ ...newSong }).save();
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -34,7 +34,7 @@ class SongService {
 			song.name = songUpdate.name;
 			return song.save();
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -42,9 +42,9 @@ class SongService {
 		try {
 			return Song.findByIdAndDelete(songId);
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 }
 
-module.exports = new SongService();
+export default new SongService();

@@ -28,4 +28,4 @@ const playlistSchema = new mongoose.Schema(
 	}
 );
 
-module.exports = mongoose.model('playlist', playlistSchema, 'playlists');
+export default mongoose.model('playlist', playlistSchema, 'playlists');

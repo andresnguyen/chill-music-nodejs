@@ -1,11 +1,11 @@
-const User = require('../models/user.model');
+import User from '../models/user.model';
 
 class UserService {
 	async getOneUser(userId) {
 		try {
 			return User.findById(userId);
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -13,7 +13,7 @@ class UserService {
 		try {
 			return User.find({});
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -21,7 +21,7 @@ class UserService {
 		try {
 			return new User({ ...newUser }).save();
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -31,7 +31,7 @@ class UserService {
 			user.name = userUpdate.name;
 			return user.save();
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -39,9 +39,9 @@ class UserService {
 		try {
 			return User.findByIdAndDelete(userId);
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 }
 
-module.exports = new UserService();
+export default new UserService();

@@ -32,4 +32,4 @@ const albumSchema = new mongoose.Schema(
 	}
 );
 
-module.exports = mongoose.model('album', albumSchema, 'albums');
+export default mongoose.model('album', albumSchema, 'albums');

@@ -40,4 +40,4 @@ const songSchema = new mongoose.Schema(
 	}
 );
 
-module.exports = mongoose.model('Song', songSchema, 'songs');
+export default mongoose.model('Song', songSchema, 'songs');

@@ -1,11 +1,11 @@
-const Playlist = require('../models/playlist.model');
+import Playlist from '../models/playlist.model';
 
 class PlaylistService {
 	async getOnePlayList(playlistId) {
 		try {
 			return Playlist.findById(playlistId);
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -13,7 +13,7 @@ class PlaylistService {
 		try {
 			return Playlist.find({});
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -21,7 +21,7 @@ class PlaylistService {
 		try {
 			return new PlayList({ ...newPlaylist }).save();
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -31,7 +31,7 @@ class PlaylistService {
 			playlist.name = playlistUpdate.name;
 			return playlist.save();
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -39,9 +39,9 @@ class PlaylistService {
 		try {
 			return Playlist.findByIdAndDelete(playlistId);
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 }
 
-module.exports = new PlaylistService();
+export default new PlaylistService();

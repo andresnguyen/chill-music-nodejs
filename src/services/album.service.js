@@ -1,11 +1,11 @@
-const Album = require('../models/album.model');
+import Album from '../models/album.model';
 
 class AlbumService {
 	async getOneAlbum(albumId) {
 		try {
 			return Album.findById(albumId);
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -13,7 +13,7 @@ class AlbumService {
 		try {
 			return Album.find({});
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -21,7 +21,7 @@ class AlbumService {
 		try {
 			return new Album({ ...newAlbum }).save();
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -31,7 +31,7 @@ class AlbumService {
 			album.name = albumUpdate.name;
 			return Album.save();
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 
@@ -39,9 +39,9 @@ class AlbumService {
 		try {
 			return Album.findByIdAndDelete(albumId);
 		} catch (error) {
-			throw new Error(error);
+			throw new Error(error.message);
 		}
 	}
 }
 
-module.exports = new AlbumService();
+export default new AlbumService();

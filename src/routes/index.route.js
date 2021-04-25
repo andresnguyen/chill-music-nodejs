@@ -1,10 +1,9 @@
-const siteRoute = require('./site.route');
-
-const userRoute = require('./user.route');
-const songRoute = require('./song.route');
-const playlistRoute = require('./playlist.route');
-const albumRoute = require('./album.route');
-const artistRoute = require('./artist.route');
+import userRoute from './user.route';
+import siteRoute from './site.route';
+import songRoute from './song.route';
+import playlistRoute from './playlist.route';
+import albumRoute from './album.route';
+import artistRoute from './artist.route';
 
 function route(app) {
 	app.use('/users', userRoute);
@@ -15,4 +14,4 @@ function route(app) {
 	app.use('/', siteRoute);
 }
 
-module.exports = route;
+export default route;

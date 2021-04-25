@@ -1,5 +1,4 @@
-const Artist = require('../models/artist.model');
-const ArtistService = require('../services/artist.service');
+import ArtistService from '../services/artist.service';
 
 class ArtistController {
 	async getAll(req, res, next) {
@@ -57,4 +56,4 @@ class ArtistController {
 	}
 }
 
-module.exports = new ArtistController();
+export default new ArtistController();
