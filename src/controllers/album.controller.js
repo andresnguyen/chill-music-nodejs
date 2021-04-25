@@ -1,11 +1,13 @@
 import AlbumService from '../services/album.service'
+import { one, many, failure } from '../constants/response.constant'
+
 class AlbumController {
     async getAll(req, res, next) {
         try {
             const albums = await AlbumService.getAllAlbum()
-            return res.status(200).json({ albums })
+            return res.status(200).json({ ...many, data: albums })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, error })
         }
     }
 
@@ -13,9 +15,9 @@ class AlbumController {
         const albumId = req.params.id
         try {
             const album = await AlbumService.getOneAlbum(albumId)
-            return res.status(200).json({ album })
+            return res.status(200).json({ ...one, data: album })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, error })
         }
     }
 
@@ -23,10 +25,10 @@ class AlbumController {
         const { name } = req.body
         const album = { name }
         try {
-            await AlbumService.createOneAlbum(album)
-            res.status(200).json({ flag: true })
+            const newAlbum = await AlbumService.createOneAlbum(album)
+            res.status(200).json({ ...one, data: newAlbum })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, error })
         }
     }
 
@@ -36,10 +38,10 @@ class AlbumController {
         const album = { name }
 
         try {
-            await AlbumService.updateOneAlbum(albumId, album)
-            res.status(200).json({ flag: true })
+            const newAlbum = await AlbumService.updateOneAlbum(albumId, album)
+            res.status(200).json({ ...one, data: newAlbum })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, error })
         }
     }
 
@@ -48,9 +50,9 @@ class AlbumController {
 
         try {
             await AlbumService.deleteOneAlbum(albumId)
-            res.status(200).json({ flag: true })
+            res.status(200).json({ ...one })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, error })
         }
     }
 }

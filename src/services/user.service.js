@@ -3,7 +3,7 @@ import User from '../models/user.model'
 class UserService {
     async getOneUser(userId) {
         try {
-            return User.findById(userId)
+            return User.findById(userId).lean()
         } catch (error) {
             throw new Error(error.message)
         }
@@ -11,7 +11,7 @@ class UserService {
 
     async getAllUser() {
         try {
-            return User.find({})
+            return User.find({}).lean()
         } catch (error) {
             throw new Error(error.message)
         }

@@ -1,12 +1,13 @@
 import SongService from '../services/song.service'
+import { one, many, failure } from '../constants/response.constant'
 
 class SongController {
     async getAll(req, res, next) {
         try {
             const songs = await SongService.getAllSong()
-            return res.status(200).json({ songs })
+            return res.status(200).json({ ...many, data: songs })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, error })
         }
     }
 
@@ -14,9 +15,9 @@ class SongController {
         const songId = req.params.id
         try {
             const song = await SongService.getOneSong(songId)
-            return res.status(200).json({ song })
+            return res.status(200).json({ ...one, data: song })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, error })
         }
     }
 
@@ -24,10 +25,10 @@ class SongController {
         const { name } = req.body
         const song = { name }
         try {
-            await SongService.createOneSong(song)
-            res.status(200).json({ flag: true })
+            const newSong = await SongService.createOneSong(song)
+            res.status(200).json({ ...one, data: newSong })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, error })
         }
     }
 
@@ -37,10 +38,11 @@ class SongController {
         const song = { name }
 
         try {
-            await SongService.updateOneSong(songId, song)
-            res.status(200).json({ flag: true })
+            const newSong = await SongService.updateOneSong(songId, song)
+            console.log({ newSong })
+            res.status(200).json({ ...one, data: newSong })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, message: error })
         }
     }
 
@@ -49,9 +51,9 @@ class SongController {
 
         try {
             await SongService.deleteOneSong(songId)
-            res.status(200).json({ flag: true })
+            res.status(200).json({ ...one })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, error })
         }
     }
 }

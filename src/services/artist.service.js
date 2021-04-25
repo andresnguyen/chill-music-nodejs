@@ -3,7 +3,7 @@ import Artist from '../models/artist.model'
 class ArtistService {
     async getOneArtist(artistId) {
         try {
-            return Artist.findById(artistId)
+            return Artist.findById(artistId).lean()
         } catch (error) {
             throw new Error(error.message)
         }
@@ -11,7 +11,7 @@ class ArtistService {
 
     async getAllArtist() {
         try {
-            return Artist.find({})
+            return Artist.find({}).lean()
         } catch (error) {
             throw new Error(error.message)
         }

@@ -3,7 +3,7 @@ import Song from '../models/song.model'
 class SongService {
     async getOneSong(songId) {
         try {
-            return Song.findById(songId)
+            return Song.findById(songId).lean()
         } catch (error) {
             throw new Error(error.message)
         }
@@ -11,7 +11,7 @@ class SongService {
 
     async getAllSong() {
         try {
-            return Song.find({})
+            return Song.find({}).lean()
         } catch (error) {
             throw new Error(error.message)
         }
@@ -30,7 +30,6 @@ class SongService {
             console.log(songId)
 
             const song = await Song.findById(songId)
-            console.log({ song })
             song.name = songUpdate.name
             return song.save()
         } catch (error) {

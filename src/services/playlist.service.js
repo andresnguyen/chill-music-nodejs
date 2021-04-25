@@ -3,7 +3,7 @@ import Playlist from '../models/playlist.model'
 class PlaylistService {
     async getOnePlayList(playlistId) {
         try {
-            return Playlist.findById(playlistId)
+            return Playlist.findById(playlistId).lean()
         } catch (error) {
             throw new Error(error.message)
         }
@@ -11,7 +11,7 @@ class PlaylistService {
 
     async getAllPlayList() {
         try {
-            return Playlist.find({})
+            return Playlist.find({}).lean()
         } catch (error) {
             throw new Error(error.message)
         }

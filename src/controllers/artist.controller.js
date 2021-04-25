@@ -1,12 +1,13 @@
 import ArtistService from '../services/artist.service'
+import { one, many, failure } from '../constants/response.constant'
 
 class ArtistController {
     async getAll(req, res, next) {
         try {
             const artists = await ArtistService.getAllArtist()
-            return res.status(200).json({ artists })
+            return res.status(200).json({ ...many, data: artists })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, error })
         }
     }
 
@@ -14,9 +15,9 @@ class ArtistController {
         const artistId = req.params.id
         try {
             const artist = await ArtistService.getOneArtist(artistId)
-            return res.status(200).json({ artist })
+            return res.status(200).json({ ...one, data: artist })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, error })
         }
     }
 
@@ -24,10 +25,10 @@ class ArtistController {
         const { name } = req.body
         const artist = { name }
         try {
-            await ArtistService.createOneArtist(artist)
-            res.status(200).json({ flag: true })
+            const newArtist = await ArtistService.createOneArtist(artist)
+            res.status(200).json({ ...one, data: newArtist })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, error })
         }
     }
 
@@ -37,10 +38,13 @@ class ArtistController {
         const artist = { name }
 
         try {
-            await ArtistService.updateOneArtist(artistId, artist)
-            res.status(200).json({ flag: true })
+            const newArtist = await ArtistService.updateOneArtist(
+                artistId,
+                artist
+            )
+            res.status(200).json({ ...one, data: newArtist })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, error })
         }
     }
 
@@ -49,9 +53,9 @@ class ArtistController {
 
         try {
             await ArtistService.deleteOneArtist(artistId)
-            res.status(200).json({ flag: true })
+            res.status(200).json({ ...one })
         } catch (error) {
-            res.status(500).json({ error })
+            res.status(500).json({ ...failure, error })
         }
     }
 }
