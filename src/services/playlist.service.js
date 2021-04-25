@@ -1,17 +1,17 @@
 import Playlist from '../models/playlist.model'
 
 class PlaylistService {
-    async getOnePlayList(playlistId) {
+    async getAllPlayList(skip, limit) {
         try {
-            return Playlist.findById(playlistId).lean()
+            return Playlist.find({}).skip(skip).limit(limit).lean()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async getAllPlayList() {
+    async getOnePlayList(playlistId) {
         try {
-            return Playlist.find({}).lean()
+            return Playlist.findById(playlistId).lean()
         } catch (error) {
             throw new Error(error.message)
         }

@@ -1,17 +1,17 @@
 import Artist from '../models/artist.model'
 
 class ArtistService {
-    async getOneArtist(artistId) {
+    async getAllArtist(skip, limit) {
         try {
-            return Artist.findById(artistId).lean()
+            return Artist.find({}).skip(skip).limit(limit).lean()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async getAllArtist() {
+    async getOneArtist(artistId) {
         try {
-            return Artist.find({}).lean()
+            return Artist.findById(artistId).lean()
         } catch (error) {
             throw new Error(error.message)
         }

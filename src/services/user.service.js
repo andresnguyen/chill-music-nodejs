@@ -1,17 +1,17 @@
 import User from '../models/user.model'
 
 class UserService {
-    async getOneUser(userId) {
+    async getAllUser(skip, limit) {
         try {
-            return User.findById(userId).lean()
+            return User.find({}).skip(skip).limit(limit).lean()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async getAllUser() {
+    async getOneUser(userId) {
         try {
-            return User.find({}).lean()
+            return User.findById(userId).lean()
         } catch (error) {
             throw new Error(error.message)
         }

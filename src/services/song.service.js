@@ -1,17 +1,17 @@
 import Song from '../models/song.model'
 
 class SongService {
-    async getOneSong(songId) {
+    async getAllSong(skip, limit) {
         try {
-            return Song.findById(songId).lean()
+            return Song.find({}).skip(skip).limit(limit).lean()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async getAllSong() {
+    async getOneSong(songId) {
         try {
-            return Song.find({}).lean()
+            return Song.findById(songId).lean()
         } catch (error) {
             throw new Error(error.message)
         }

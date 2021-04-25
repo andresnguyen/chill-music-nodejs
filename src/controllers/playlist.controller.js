@@ -3,8 +3,12 @@ import { one, many, failure } from '../constants/response.constant'
 
 class PlaylistController {
     async getAll(req, res, next) {
+        let { skip, limit } = req.query
+        skip = parseInt(skip, 10) || 0
+        limit = parseInt(limit, 10) || 10
+
         try {
-            const playlists = await PlaylistService.getAllPlaylist()
+            const playlists = await PlaylistService.getAllPlaylist(skip, limit)
             return res.status(200).json({ ...many, data: playlists })
         } catch (error) {
             res.status(500).json({ ...failure, error })

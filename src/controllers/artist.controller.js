@@ -3,8 +3,12 @@ import { one, many, failure } from '../constants/response.constant'
 
 class ArtistController {
     async getAll(req, res, next) {
+        let { skip, limit } = req.query
+        skip = parseInt(skip, 10) || 0
+        limit = parseInt(limit, 10) || 10
+
         try {
-            const artists = await ArtistService.getAllArtist()
+            const artists = await ArtistService.getAllArtist(skip, limit)
             return res.status(200).json({ ...many, data: artists })
         } catch (error) {
             res.status(500).json({ ...failure, error })

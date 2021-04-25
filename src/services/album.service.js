@@ -1,17 +1,17 @@
 import Album from '../models/album.model'
 
 class AlbumService {
-    async getOneAlbum(albumId) {
+    async getAllAlbum(skip, limit) {
         try {
-            return Album.findById(albumId).lean()
+            return Album.find({}).skip(skip).limit(limit).lean()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async getAllAlbum() {
+    async getOneAlbum(albumId) {
         try {
-            return Album.find({}).lean()
+            return Album.findById(albumId).lean()
         } catch (error) {
             throw new Error(error.message)
         }
