@@ -12,7 +12,7 @@ const isProduction = process.env.NODE_ENV === 'production'
 import route from './routes/index.route.js'
 import connect from './configs/db/index.js'
 
-const accessLogStream = rfs.createStream('access.log', {
+const accessLogStream = rfs('access.log', {
     interval: '1d',
     path: path.join(__dirname, 'log'),
 })
