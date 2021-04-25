@@ -1,8 +1,6 @@
-const one = { data: {} }
-const many = { data: [] }
-const failure = {
+export const one = { data: {} }
+export const many = { data: [] }
+export const failure = {
     code: 1,
     error: 'Server error',
 }
-
-export default { one, many, failure }
