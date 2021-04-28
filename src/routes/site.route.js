@@ -1,8 +1,8 @@
-import express from 'express';
-const router = express.Router();
+import express from 'express'
+const router = express.Router()
 
 router.get('/', (req, res) => {
-	res.send('chill music vip pro welcome bro!');
-});
+    res.send('just 4 more months')
+})
 
-export default router;
+export default router
