@@ -1,51 +1,47 @@
 import UserService from '../services/user.service'
-import { one, many, failure } from '../constants/response.constant'
+import {
+    singleResponse,
+    pluralResponse,
+    failedResponse,
+} from '../constants/response.constant'
 
 class UserController {
     async getAll(req, res, next) {
-        let { skip, limit } = req.query
-        skip = parseInt(skip, 10) || 0
-        limit = parseInt(limit, 10) || 10
-
         try {
-            const users = await UserService.getAllUser(skip, limit)
-            return res.status(200).json({ ...many, data: users })
+            const users = await UserService.getAll(req.query)
+            return res.status(200).json({ ...pluralResponse, data: users })
         } catch (error) {
-            res.status(500).json({ ...failure, error })
+            res.status(500).json({ ...failedResponse, message: error.message })
         }
     }
 
     async getOne(req, res, next) {
         const userId = req.params.id
         try {
-            const user = await UserService.getOneUser(userId)
-            return res.status(200).json({ ...one, data: user })
+            const user = await UserService.getOne(userId)
+            return res.status(200).json({ ...singleResponse, data: user })
         } catch (error) {
-            res.status(500).json({ ...failure, error })
+            res.status(500).json({ ...failedResponse, message: error.message })
         }
     }
 
     async postOne(req, res, next) {
-        const { name } = req.body
-        const user = { name }
         try {
-            const newUser = await UserService.createOneUser(user)
-            res.status(200).json({ ...one, data: newUser })
+            const newUser = await UserService.postOne(req.body)
+            res.status(200).json({ ...singleResponse, data: newUser })
         } catch (error) {
-            res.status(500).json({ ...failure, error })
+            res.status(500).json({ ...failedResponse, message: error.message })
         }
     }
 
     async updateOne(req, res, next) {
         const userId = req.params.id
-        const { name } = req.body
-        const user = { name }
 
         try {
-            const newUser = await UserService.updateOneUser(userId, user)
-            res.status(200).json({ ...one, data: newUser })
+            const newUser = await UserService.updateOne(userId, req.body)
+            res.status(200).json({ ...singleResponse, data: newUser })
         } catch (error) {
-            res.status(500).json({ ...failure, error })
+            res.status(500).json({ ...failedResponse, message: error.message })
         }
     }
 
@@ -53,10 +49,10 @@ class UserController {
         const userId = req.params.id
 
         try {
-            await UserService.deleteOneUser(userId)
-            res.status(200).json({ ...one })
+            const user = await UserService.deleteOne(userId)
+            res.status(200).json({ ...singleResponse, data: user })
         } catch (error) {
-            res.status(500).json({ ...failure, error })
+            res.status(500).json({ ...failedResponse, message: error.message })
         }
     }
 }

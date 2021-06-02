@@ -1,4 +1,8 @@
-import { one, many, failure } from '../constants/response.constant'
+import {
+    singleResponse,
+    pluralResponse,
+    failedResponse,
+} from '../constants/response.constant'
 
 class SiteController {}
 

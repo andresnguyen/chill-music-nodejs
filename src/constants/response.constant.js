@@ -1,6 +1,6 @@
-export const one = { data: {} }
-export const many = { data: [] }
-export const failure = {
+export const singleResponse = { data: {} }
+export const pluralResponse = { data: [] }
+export const failedResponse = {
     code: 500,
-    error: 'Server error',
+    message: 'Server error',
 }

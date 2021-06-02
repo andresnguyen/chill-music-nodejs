@@ -1,56 +1,51 @@
 import PlaylistService from '../services/playlist.service'
-import { one, many, failure } from '../constants/response.constant'
+import {
+    singleResponse,
+    pluralResponse,
+    failedResponse,
+} from '../constants/response.constant'
 
 class PlaylistController {
     async getAll(req, res, next) {
-        let { skip, limit } = req.query
-        skip = parseInt(skip, 10) || 0
-        limit = parseInt(limit, 10) || 10
-
         try {
-            const playlists = await PlaylistService.getAllPlaylist(skip, limit)
-            return res.status(200).json({ ...many, data: playlists })
+            const playlists = await PlaylistService.getAll(req.query)
+            return res.status(200).json({ ...pluralResponse, data: playlists })
         } catch (error) {
-            res.status(500).json({ ...failure, error })
+            res.status(500).json({ ...failedResponse, message: error.message })
         }
     }
 
     async getOne(req, res, next) {
         const playlistId = req.params.id
         try {
-            const playlist = await PlaylistService.getOnePlaylist(playlistId)
-            return res.status(200).json({ ...one, data: playlist })
+            const playlist = await PlaylistService.getOne(playlistId)
+            return res.status(200).json({ ...singleResponse, data: playlist })
         } catch (error) {
-            res.status(500).json({ ...failure, error })
+            res.status(500).json({ ...failedResponse, message: error.message })
         }
     }
 
     async postOne(req, res, next) {
         const { name } = req.body
-        const playlist = { name }
         try {
-            const newPlaylist = await PlaylistService.createOnePlaylist(
-                playlist
-            )
-            res.status(200).json({ ...one, data: newPlaylist })
+            const playlist = await PlaylistService.postOne(req.body)
+            res.status(200).json({ ...singleResponse, data: playlist })
         } catch (error) {
-            res.status(500).json({ ...failure, error })
+            res.status(500).json({ ...failedResponse, message: error.message })
         }
     }
 
     async updateOne(req, res, next) {
         const playlistId = req.params.id
-        const { name } = req.body
-        const playlist = { name }
 
         try {
-            const newPlaylist = await PlaylistService.updateOnePlaylist(
+            const newPlaylist = await PlaylistService.updateOne(
                 playlistId,
-                playlist
+                req.body
             )
-            res.status(200).json({ ...one, data: newPlaylist })
+            res.status(200).json({ ...singleResponse, data: newPlaylist })
         } catch (error) {
-            res.status(500).json({ ...failure, error })
+            res.status(500).json({ ...failedResponse, message: error.message })
         }
     }
 
@@ -58,10 +53,10 @@ class PlaylistController {
         const playlistId = req.params.id
 
         try {
-            await PlaylistService.deleteOnePlaylist(playlistId)
-            res.status(200).json({ ...one })
+            const playlist = await PlaylistService.deleteOne(playlistId)
+            res.status(200).json({ ...singleResponse, data: playlist })
         } catch (error) {
-            res.status(500).json({ ...failure, error })
+            res.status(500).json({ ...failedResponse, message: error.message })
         }
     }
 }

@@ -1,15 +1,26 @@
 import Playlist from '../models/playlist.model'
 
 class PlaylistService {
-    async getAllPlayList(skip, limit) {
+    async getAll({ page = 0, limit = 20, q = '' }) {
+        page = Number.parseInt(page)
+        limit = Number.parseInt(limit)
+        const query = q ? { name: new RegExp(q, 'i') } : {}
+
         try {
-            return Playlist.find({}).skip(skip).limit(limit).lean()
+            const playlists = await Playlist.find(query)
+                .skip(page * limit)
+                .limit(limit)
+                .lean()
+
+            const count = await Playlist.find(query).count()
+
+            return { playlists, page, limit, count }
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async getOnePlayList(playlistId) {
+    async getOne(playlistId) {
         try {
             return Playlist.findById(playlistId).lean()
         } catch (error) {
@@ -17,25 +28,27 @@ class PlaylistService {
         }
     }
 
-    async createOnePlayList(newPlaylist) {
+    async postOne({ name }) {
+        const playlist = { name }
         try {
-            return new PlayList({ ...newPlaylist }).save()
+            return new Playlist({ ...playlist }).save()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async updateOnePlayList(playlistId, playlistUpdate) {
+    async updateOne(playlistId, { name }) {
+        const newPlaylist = { name } // validation
         try {
             const playlist = await Playlist.findById(playlistId)
-            playlist.name = playlistUpdate.name
+            playlist.name = name
             return playlist.save()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async deleteOnePlayList(playlistId) {
+    async deleteOne(playlistId) {
         try {
             return Playlist.findByIdAndDelete(playlistId)
         } catch (error) {

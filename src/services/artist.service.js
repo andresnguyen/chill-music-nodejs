@@ -1,15 +1,26 @@
 import Artist from '../models/artist.model'
 
 class ArtistService {
-    async getAllArtist(skip, limit) {
+    async getAll({ page = 0, limit = 20, q = '' }) {
+        page = Number.parseInt(page)
+        limit = Number.parseInt(limit)
+        const query = q ? { name: new RegExp(q, 'i') } : {}
+
         try {
-            return Artist.find({}).skip(skip).limit(limit).lean()
+            const artists = await Artist.find(query)
+                .skip(page * limit)
+                .limit(limit)
+                .lean()
+
+            const count = await Artist.find(query).count()
+
+            return { artists, page, limit, count }
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async getOneArtist(artistId) {
+    async getOne(artistId) {
         try {
             return Artist.findById(artistId).lean()
         } catch (error) {
@@ -17,25 +28,27 @@ class ArtistService {
         }
     }
 
-    async createOneArtist(newArtist) {
+    async postOne({ name }) {
+        const artist = { name }
         try {
-            return new Artist({ ...newArtist }).save()
+            return new Artist({ ...artist }).save()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async updateOneArtist(artistId, artistUpdate) {
+    async updateOne(artistId, { name }) {
+        const newArtist = { name } // validation
         try {
             const artist = await Artist.findById(artistId)
-            artist.name = artistUpdate.name
+            artist.name = name
             return Artist.save()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async deleteOneArtist(artistId) {
+    async deleteOne(artistId) {
         try {
             return Artist.findByIdAndDelete(artistId)
         } catch (error) {

@@ -1,15 +1,26 @@
 import User from '../models/user.model'
 
 class UserService {
-    async getAllUser(skip, limit) {
+    async getAll({ page = 0, limit = 20, q = '' }) {
+        page = Number.parseInt(page)
+        limit = Number.parseInt(limit)
+        const query = q ? { name: new RegExp(q, 'i') } : {}
+
         try {
-            return User.find({}).skip(skip).limit(limit).lean()
+            const users = await User.find(query)
+                .skip(page * limit)
+                .limit(limit)
+                .lean()
+
+            const count = await User.find(query).count()
+
+            return { users, page, limit, count }
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async getOneUser(userId) {
+    async getOne(userId) {
         try {
             return User.findById(userId).lean()
         } catch (error) {
@@ -17,25 +28,27 @@ class UserService {
         }
     }
 
-    async createOneUser(newUser) {
+    async postOne({ name }) {
+        const user = { name }
         try {
-            return new User({ ...newUser }).save()
+            return new User({ ...user }).save()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async updateOneUser(userId, userUpdate) {
+    async updateOne(userId, { name }) {
+        const newUser = { name } // validation
         try {
             const user = await User.findById(userId)
-            user.name = userUpdate.name
+            user.name = name
             return user.save()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async deleteOneUser(userId) {
+    async deleteOne(userId) {
         try {
             return User.findByIdAndDelete(userId)
         } catch (error) {

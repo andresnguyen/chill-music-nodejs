@@ -1,15 +1,26 @@
 import Song from '../models/song.model'
 
 class SongService {
-    async getAllSong(skip, limit) {
+    async getAll({ page = 0, limit = 20, q = '' }) {
+        page = Number.parseInt(page)
+        limit = Number.parseInt(limit)
+        const query = q ? { name: new RegExp(q, 'i') } : {}
+
         try {
-            return Song.find({}).skip(skip).limit(limit).lean()
+            const songs = await Song.find(query)
+                .skip(page * limit)
+                .limit(limit)
+                .lean()
+
+            const count = await Song.find(query).count()
+
+            return { songs, page, limit, count }
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async getOneSong(songId) {
+    async getOne(songId) {
         try {
             return Song.findById(songId).lean()
         } catch (error) {
@@ -17,27 +28,27 @@ class SongService {
         }
     }
 
-    async createOneSong(newSong) {
+    async postOne({ name }) {
+        const song = { name }
         try {
-            return new Song({ ...newSong }).save()
+            return new Song({ ...song }).save()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async updateOneSong(songId, songUpdate) {
+    async updateOne(songId, { name }) {
+        const newSong = { name } // validation
         try {
-            console.log(songId)
-
             const song = await Song.findById(songId)
-            song.name = songUpdate.name
+            song.name = name
             return song.save()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async deleteOneSong(songId) {
+    async deleteOne(songId) {
         try {
             return Song.findByIdAndDelete(songId)
         } catch (error) {

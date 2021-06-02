@@ -1,15 +1,26 @@
 import Album from '../models/album.model'
 
 class AlbumService {
-    async getAllAlbum(skip, limit) {
+    async getAll({ page = 0, limit = 20, q = '' }) {
+        page = Number.parseInt(page)
+        limit = Number.parseInt(limit)
+        const query = q ? { name: new RegExp(q, 'i') } : {}
+
         try {
-            return Album.find({}).skip(skip).limit(limit).lean()
+            const albums = await Album.find(query)
+                .skip(page * limit)
+                .limit(limit)
+                .lean()
+
+            const count = await Album.find(query).count()
+
+            return { albums, page, limit, count }
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async getOneAlbum(albumId) {
+    async getOne(albumId) {
         try {
             return Album.findById(albumId).lean()
         } catch (error) {
@@ -17,25 +28,27 @@ class AlbumService {
         }
     }
 
-    async createOneAlbum(newAlbum) {
+    async postOne({ name }) {
+        const album = { name }
         try {
-            return new Album({ ...newAlbum }).save()
+            return new Album({ ...album }).save()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async updateOneAlbum(albumId, albumUpdate) {
+    async updateOne(albumId, { name }) {
+        const newAlbum = { name } // validation
         try {
             const album = await Album.findById(albumId)
-            album.name = albumUpdate.name
+            album.name = name
             return Album.save()
         } catch (error) {
             throw new Error(error.message)
         }
     }
 
-    async deleteOneAlbum(albumId) {
+    async deleteOne(albumId) {
         try {
             return Album.findByIdAndDelete(albumId)
         } catch (error) {
