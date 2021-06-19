@@ -55,6 +55,14 @@ class ArtistService {
             throw new Error(error.message)
         }
     }
+    async getOneBySlug(artistSlug) {
+        console.log(artistSlug)
+        try {
+            return Artist.findOne({ slug: artistSlug })
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
 }
 
 export default new ArtistService()

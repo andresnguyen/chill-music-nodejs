@@ -10,10 +10,8 @@ class SongService {
             const songs = await Song.find(query)
                 .skip(page * limit)
                 .limit(limit)
-                .lean()
 
             const count = await Song.find(query).count()
-
             return { songs, page, limit, count }
         } catch (error) {
             throw new Error(error.message)
@@ -22,7 +20,7 @@ class SongService {
 
     async getOne(songId) {
         try {
-            return Song.findById(songId).lean()
+            return Song.findById(songId)
         } catch (error) {
             throw new Error(error.message)
         }

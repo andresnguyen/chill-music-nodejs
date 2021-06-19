@@ -55,6 +55,16 @@ class ArtistController {
             res.status(500).json({ ...failedResponse, message: error.message })
         }
     }
+    async getOneBySlug(req, res, next) {
+        const artistSlug = req.params.slug
+
+        try {
+            const song = await ArtistService.getOneBySlug(artistSlug)
+            res.status(200).json({ ...singleResponse, data: song })
+        } catch (error) {
+            res.status(500).json({ ...failedResponse, message: error.message })
+        }
+    }
 }
 
 export default new ArtistController()
