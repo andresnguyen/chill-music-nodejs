@@ -22,14 +22,14 @@ class SiteController {
             let songs = await Song.find({}).lean()
             let index = 0
 
-            home = home.map((title) => ({
+            let homeResult = home.map((title) => ({
                 title,
-                list: songs.slice(index, (index += 20)),
+                list: songs.slice(index, (index += 2)),
             }))
 
-            res.json({ ...pluralResponse, data: home })
+            res.status(200).json({ ...pluralResponse, data: homeResult })
         } catch (error) {
-            res.json({ ...failedResponse, message: error.message })
+            res.status(500).json({ ...failedResponse, message: error.message })
         }
     }
 }
