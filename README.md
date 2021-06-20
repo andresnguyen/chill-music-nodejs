@@ -1,74 +1,245 @@
-# Chill Music Nodejs
 
-## 1. How to use this project
+# Chillmusic Nodejs
 
-## 2. Business Logic
+A backend API. Chillmusic is music app similar Spotify.
 
-1. User
+## Authors
 
-    - getAll
-      ![](./img/1.png)
-    - getOne
-        - kiểm tra id có thỏa mãn hay không?
-    - postOne
+- [@thuongnguyen.it78](https://www.github.com/thuongnguyen-it78)
+- [@quocthuan251](https://www.github.com/quocthuan251)
 
-        - {email, password, fullname, gender, dayOfBirth}
-        - kiểm tra email đã tồn tại hay chưa?
-        - validate email, password, fullname, gender, dayOfBirth
-        - mã hóa password
+  
+## Demo
 
-    - updateOne
+https://chill-music-nodejs.herokuapp.com/
 
-        - {fullname, dayofBirth, gender}
-        - validate new value
+  ## API Reference
+### 1. SONG
 
-    - deleteOne
-        - check id có hợp lệ hay không?
-    - changePw
+#### Get all songs
+```http
+  GET /api/songs
+```
 
-        - {oldPassword, newPassword}
+#### Get a song
+```http
+  GET /api/songs/{id}
+```
 
-    - forgotPassword
-        - {email}
+#### Post a song
+```http
+  POST /api/songs/{id}
+```
 
-2. Song
-    - getAll
-    - getOne
-    - postOne
-        - {name, path, image, genre, artists}
-    - updateOne
-        - {name, path, image, genre, artists}
-    - deleteOne
-3. Album
-    - getAll
-    - getOne
-    - postOne
-        - {name, image, artists}
-    - updateOne
-        - {name, image, artists}
-    - deleteOne
-4. Playlist
-    - getAll
-    - getOne
-    - postOne
-        - {name}
-    - updateOne
-        - {name}
-    - deleteOne
-5. Artist
+#### Update a song
+```http
+  PATCH /api/songs/{id}
+```
 
-    - getAll
-    - getOne
-    - postOne
-        - {name, avatar, banner, genre, description}
-    - updateOne
+#### Delete a song
+```http
+  DELETE /api/songs/{id}
+```
+### 2. USER
 
-        - {name, avatar, banner, genre, description}
+#### Get all users
+```http
+  GET /api/users
+```
 
-    - deleteOne
+#### Get a user
+```http
+  GET /api/users/{id}
+```
 
-6. HomePage
-    - List Playlist
-7. SearchPage
-8. URL Link
-    - https://chill-music-nodejs.herokuapp.com/
+#### Post a user
+```http
+  POST /api/users/{id}
+```
+
+#### Update a user
+```http
+  PATCH /api/users/{id}
+```
+
+#### Delete a user
+```http
+  DELETE /api/users/{id}
+```
+### 3. PLAYLIST
+
+#### Get all playlists
+```http
+  GET /api/playlists
+```
+
+#### Get a playlist
+```http
+  GET /api/playlists/{id}
+```
+
+#### Post a playlist
+```http
+  POST /api/playlists/{id}
+```
+
+#### Update a playlist
+```http
+  PATCH /api/playlists/{id}
+```
+
+#### Delete a playlist
+```http
+  DELETE /api/playlists/{id}
+```
+
+### 4. ALBUM
+
+#### Get all albums
+```http
+  GET /api/albums
+```
+
+#### Get a album
+```http
+  GET /api/albums/{id}
+```
+
+#### Post a album
+```http
+  POST /api/albums/{id}
+```
+
+#### Update a album
+```http
+  PATCH /api/albums/{id}
+```
+
+#### Delete a album
+```http
+  DELETE /api/albums/{id}
+```
+
+### 5. ARTIST
+
+#### Get all artists
+```http
+  GET /api/artists
+```
+
+#### Get a artist
+```http
+  GET /api/artists/{id}
+```
+
+#### Post a artist
+```http
+  POST /api/artists/{id}
+```
+
+#### Update a artist
+```http
+  PATCH /api/artists/{id}
+```
+
+#### Delete a artist
+```http
+  DELETE /api/artists/{id}
+```
+
+### 6. COLECTION
+
+#### Get liked songs 
+```http
+  GET /api/collection/songs
+```
+
+#### Post a song to liked songs 
+```http
+  POST /api/collection/songs
+```
+
+#### Delete a song from liked songs 
+```http
+  DELETE /api/collection/songs/{id}
+```
+
+#### Get playlists
+```http
+  GET /api/collection/playlists
+```
+
+#### Get a playlist
+```http
+  GET /api/collection/playlists/{id}
+```
+
+#### Post a playlist
+```http
+  POST /api/collection/playlists
+```
+
+#### Update a playlist
+```http
+  PATCH /api/collection/playlists/{id}
+```
+
+#### Delete a playlist
+```http
+  DELETE /api/collection/playlists/{id}
+```
+
+#### Add a song to a playlist
+```http
+  UPDATE /api/collection/playlists/{id}/songs
+```
+
+#### Delete a song from a playlist
+```http
+  DELETE /api/collection/playlists/{id}/songs
+```
+
+#### Get albums
+```http
+  GET /api/collection/albums
+```
+
+#### Get a album
+```http
+  GET /api/collection/albums/{id}
+```
+
+#### Add a album to collection
+```http
+  POST /api/collection/albums/{id}
+```
+
+#### Delete a album from collection
+```http
+  GET /api/collection/albums/{id}
+```
+
+#### Get artists
+```http
+  GET /api/collection/artists
+```
+
+#### Add a artists to collection
+```http
+  POST /api/collection/artists
+```
+
+#### Delete a artists from collection
+```http
+  DELETE /api/collection/artists/{id}
+```
+
+#### Get my songs
+```http
+  GET /api/collection/my-song
+```
+#### Post my song
+
+```http
+  POST /api/collection/my-song
+```

@@ -24,7 +24,7 @@ class SiteController {
 
             let homeResult = home.map((title) => ({
                 title,
-                list: songs.slice(index, (index += 20)),
+                list: songs.slice(index, (index += 10)),
             }))
 
             res.status(200).json({ ...pluralResponse, data: homeResult })
