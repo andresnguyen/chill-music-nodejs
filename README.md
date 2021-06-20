@@ -1,6 +1,27 @@
+# Chillmusic Nodejs
+
+A backend API. Chillmusic is music app similar Spotify.
+
+## Authors
+
+-   [@thuongnguyen.it78](https://www.github.com/thuongnguyen-it78)
+-   [@quocthuan251](https://www.github.com/quocthuan251)
+
+## Demo
+
+https://chill-music-nodejs.herokuapp.com/
+
 ## API Reference
 
-### 1. SONG
+1. [Songs](#songs)
+1. [Users](#users)
+1. [Playlists](#playlists)
+1. [Albums](#albums)
+1. [Artists](#artists)
+1. [Collection](#collection)
+1. [Auths](#auths)
+
+### 1. Songs
 
 #### Get all songs
 
@@ -32,7 +53,7 @@
   DELETE /api/songs/{id}
 ```
 
-### 2. USER
+### 2. Users
 
 #### Get all users
 
@@ -64,7 +85,7 @@
   DELETE /api/users/{id}
 ```
 
-### 3. PLAYLIST
+## 3. Playlists
 
 #### Get all playlists
 
@@ -96,7 +117,7 @@
   DELETE /api/playlists/{id}
 ```
 
-### 4. ALBUM
+### 4. Albums
 
 #### Get all albums
 
@@ -128,7 +149,7 @@
   DELETE /api/albums/{id}
 ```
 
-### 5. ARTIST
+### 5. Artists
 
 #### Get all artists
 
@@ -160,7 +181,7 @@
   DELETE /api/artists/{id}
 ```
 
-### 6. COLECTION
+### 6. Collection
 
 #### Get liked songs
 
@@ -276,7 +297,7 @@
   POST /api/collection/my-song
 ```
 
-### 7. AUTHS
+### 7. Auths
 
 #### 1. Sign in
 
