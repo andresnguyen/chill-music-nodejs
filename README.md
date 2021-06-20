@@ -20,6 +20,7 @@ https://chill-music-nodejs.herokuapp.com/
 1. [Artists](#artists)
 1. [Collection](#collection)
 1. [Auths](#auths)
+ <div id='songs' />
 
 ### 1. Songs
 
@@ -53,6 +54,8 @@ https://chill-music-nodejs.herokuapp.com/
   DELETE /api/songs/{id}
 ```
 
+ <div id='users' />
+
 ### 2. Users
 
 #### Get all users
@@ -85,7 +88,9 @@ https://chill-music-nodejs.herokuapp.com/
   DELETE /api/users/{id}
 ```
 
-## 3. Playlists
+ <div id='playlists' />
+
+### 3. Playlists
 
 #### Get all playlists
 
@@ -116,6 +121,8 @@ https://chill-music-nodejs.herokuapp.com/
 ```http
   DELETE /api/playlists/{id}
 ```
+
+ <div id='albums' />
 
 ### 4. Albums
 
@@ -149,6 +156,8 @@ https://chill-music-nodejs.herokuapp.com/
   DELETE /api/albums/{id}
 ```
 
+ <div id='artists' />
+
 ### 5. Artists
 
 #### Get all artists
@@ -180,6 +189,8 @@ https://chill-music-nodejs.herokuapp.com/
 ```http
   DELETE /api/artists/{id}
 ```
+
+ <div id='collection' />
 
 ### 6. Collection
 
@@ -297,33 +308,35 @@ https://chill-music-nodejs.herokuapp.com/
   POST /api/collection/my-song
 ```
 
+ <div id='auths' />
+
 ### 7. Auths
 
-#### 1. Sign in
+#### Sign in
 
 ```http
   POST /api/auths/sign-in
 ```
 
-#### 2. Sign up
+#### Sign up
 
 ```http
   POST /api/auth/sign-up
 ```
 
-#### 3. Sign out
+#### Sign out
 
 ```http
   GET /api/auths/sign-out
 ```
 
-#### 4. Change password
+#### Change password
 
 ```http
   POST /api/auths/change-pw
 ```
 
-#### 5. Change infomation
+#### Change infomation
 
 ```http
   POST /api/auths/change-info
