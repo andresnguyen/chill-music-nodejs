@@ -2,7 +2,7 @@ import PlaylistService from '../services/playlist.service'
 import {
     singleResponse,
     pluralResponse,
-    failedResponse,
+    failedResponse
 } from '../constants/response.constant'
 import { OK, INTERNAL_SERVER } from '../constants/httpStatusCode.constant'
 
@@ -14,7 +14,7 @@ class PlaylistController {
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
-                message: error.message,
+                message: error.message
             })
         }
     }
@@ -27,7 +27,7 @@ class PlaylistController {
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
-                message: error.message,
+                message: error.message
             })
         }
     }
@@ -39,7 +39,7 @@ class PlaylistController {
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
-                message: error.message,
+                message: error.message
             })
         }
     }
@@ -55,7 +55,7 @@ class PlaylistController {
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
-                message: error.message,
+                message: error.message
             })
         }
     }
@@ -68,7 +68,7 @@ class PlaylistController {
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
-                message: error.message,
+                message: error.message
             })
         }
     }

@@ -7,6 +7,7 @@
     "dev": "nodemon --exec babel-node ./src/index.js --inspector",
     "start": "node ./dist/api.bundle.js",
     "build": "webpack --mode development --config webpack.config.js",
+    "eslint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -30,8 +31,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
+    "@babel/eslint-parser": "^7.14.7",
     "@babel/preset-env": "^7.10.4",
     "babel-loader": "^8.1.0",
+    "eslint": "^7.31.0",
     "nodemon": "^2.0.4",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12",

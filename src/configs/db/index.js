@@ -5,7 +5,7 @@ async function connect() {
         await mongoose.connect(process.env.DATABASE_URL, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useCreateIndex: true,
+            useCreateIndex: true
         })
         console.log('Connect successfully!!!')
     } catch (error) {
