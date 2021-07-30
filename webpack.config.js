@@ -2,8 +2,8 @@ const path = require('path')
 module.exports = {
     entry: './src/index.js',
     output: {
-        path: path.join(__dirname, 'dist'),
-        filename: 'api.bundle.js',
+        path: path.join(__dirname, 'build'),
+        filename: 'api.bundle.js'
     },
     target: 'node',
     module: {
@@ -13,9 +13,9 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: 'babel-loader',
-                },
-            },
-        ],
-    },
+                    loader: 'babel-loader'
+                }
+            }
+        ]
+    }
 }

@@ -4,17 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node ./src/index.js --inspector",
-    "start": "node ./dist/api.bundle.js",
-    "build": "webpack --mode development --config webpack.config.js",
+    "dev": "nodemon --exec ./node_modules/.bin/babel-node ./src/index.js --inspector",
+    "clean": "rm -rf build && mkdir build",
+    "build": "npm run clean && webpack --mode development --config webpack.config.js",
+    "start": "node ./build/api.bundle.js",
     "eslint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/node": "^7.6.2",
-    "@babel/plugin-transform-runtime": "^7.10.4",
     "@babel/runtime": "^7.10.4",
     "babel-plugin-istanbul": "^6.0.0",
     "bcryptjs": "^2.4.3",
@@ -32,6 +31,8 @@
   "devDependencies": {
     "@babel/core": "^7.10.4",
     "@babel/eslint-parser": "^7.14.7",
+    "@babel/node": "^7.14.7",
+    "@babel/plugin-transform-runtime": "^7.14.5",
     "@babel/preset-env": "^7.10.4",
     "babel-loader": "^8.1.0",
     "eslint": "^7.31.0",
