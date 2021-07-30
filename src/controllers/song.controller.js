@@ -4,55 +4,69 @@ import {
     pluralResponse,
     failedResponse,
 } from '../constants/response.constant'
+import { OK, INTERNAL_SERVER } from '../constants/httpStatusCode.constant'
 
 class SongController {
     async getAll(req, res, next) {
         try {
             const songs = await SongService.getAll(req.query)
-            return res.status(200).json({ ...pluralResponse, data: songs })
+            return res.status(OK).json({ ...pluralResponse, data: songs })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async getOne(req, res, next) {
+    async getById(req, res, next) {
         const songId = req.params.id
         try {
-            const song = await SongService.getOne(songId)
-            return res.status(200).json({ ...singleResponse, data: song })
+            const song = await SongService.getById(songId)
+            return res.status(OK).json({ ...singleResponse, data: song })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async postOne(req, res, next) {
+    async create(req, res, next) {
         try {
-            const newSong = await SongService.postOne(req.body)
-            res.status(200).json({ ...singleResponse, data: newSong })
+            const newSong = await SongService.create(req.body)
+            res.status(OK).json({ ...singleResponse, data: newSong })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async updateOne(req, res, next) {
+    async update(req, res, next) {
         const songId = req.params.id
-
         try {
-            const song = await SongService.updateOne(songId, req.body)
-            res.status(200).json({ ...singleResponse, data: song })
+            const song = await SongService.update(songId, req.body)
+            res.status(OK).json({ ...singleResponse, data: song })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async deleteOne(req, res, next) {
+    async delete(req, res, next) {
         const songId = req.params.id
-
         try {
-            const song = await SongService.deleteOne(songId)
-            res.status(200).json({ ...singleResponse, data: song })
+            const song = await SongService.delete(songId)
+            res.status(OK).json({ ...singleResponse, data: song })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 }

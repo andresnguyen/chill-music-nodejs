@@ -4,65 +4,81 @@ import {
     pluralResponse,
     failedResponse,
 } from '../constants/response.constant'
+import { OK, INTERNAL_SERVER } from '../constants/httpStatusCode.constant'
 
 class ArtistController {
     async getAll(req, res, next) {
         try {
             const artists = await ArtistService.getAll(req.query)
-            return res.status(200).json({ ...pluralResponse, data: artists })
+            return res.status(OK).json({ ...pluralResponse, data: artists })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async getOne(req, res, next) {
+    async getById(req, res, next) {
         const artistId = req.params.id
         try {
-            const artist = await ArtistService.getOne(artistId)
-            return res.status(200).json({ ...singleResponse, data: artist })
+            const artist = await ArtistService.getById(artistId)
+            return res.status(OK).json({ ...singleResponse, data: artist })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async postOne(req, res, next) {
+    async create(req, res, next) {
         try {
-            const artist = await ArtistService.postOne(req.body)
-            res.status(200).json({ ...singleResponse, data: artist })
+            const artist = await ArtistService.create(req.body)
+            res.status(OK).json({ ...singleResponse, data: artist })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async updateOne(req, res, next) {
+    async update(req, res, next) {
         const artistId = req.params.id
-
         try {
-            const artist = await ArtistService.updateOne(artistId, req.body)
-            res.status(200).json({ ...singleResponse, data: artist })
+            const artist = await ArtistService.update(artistId, req.body)
+            res.status(OK).json({ ...singleResponse, data: artist })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async deleteOne(req, res, next) {
+    async delete(req, res, next) {
         const artistId = req.params.id
-
         try {
-            const artist = await ArtistService.deleteOne(artistId)
-            res.status(200).json({ ...singleResponse, data: artist })
+            const artist = await ArtistService.delete(artistId)
+            res.status(OK).json({ ...singleResponse, data: artist })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
-    async getOneBySlug(req, res, next) {
+    async getBySlug(req, res, next) {
         const artistSlug = req.params.slug
-
         try {
-            const song = await ArtistService.getOneBySlug(artistSlug)
-            res.status(200).json({ ...singleResponse, data: song })
+            const song = await ArtistService.getBySlug(artistSlug)
+            res.status(OK).json({ ...singleResponse, data: song })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 }

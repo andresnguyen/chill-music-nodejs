@@ -4,59 +4,72 @@ import {
     pluralResponse,
     failedResponse,
 } from '../constants/response.constant'
+import { OK, INTERNAL_SERVER } from '../constants/httpStatusCode.constant'
 
 class PlaylistController {
     async getAll(req, res, next) {
         try {
             const playlists = await PlaylistService.getAll(req.query)
-            return res.status(200).json({ ...pluralResponse, data: playlists })
+            return res.status(OK).json({ ...pluralResponse, data: playlists })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async getOne(req, res, next) {
+    async getById(req, res, next) {
         const playlistId = req.params.id
         try {
-            const playlist = await PlaylistService.getOne(playlistId)
-            return res.status(200).json({ ...singleResponse, data: playlist })
+            const playlist = await PlaylistService.getById(playlistId)
+            return res.status(OK).json({ ...singleResponse, data: playlist })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async postOne(req, res, next) {
-        const { name } = req.body
+    async create(req, res, next) {
         try {
-            const playlist = await PlaylistService.postOne(req.body)
-            res.status(200).json({ ...singleResponse, data: playlist })
+            const playlist = await PlaylistService.create(req.body)
+            res.status(OK).json({ ...singleResponse, data: playlist })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async updateOne(req, res, next) {
+    async update(req, res, next) {
         const playlistId = req.params.id
-
         try {
-            const newPlaylist = await PlaylistService.updateOne(
+            const newPlaylist = await PlaylistService.update(
                 playlistId,
                 req.body
             )
-            res.status(200).json({ ...singleResponse, data: newPlaylist })
+            res.status(OK).json({ ...singleResponse, data: newPlaylist })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async deleteOne(req, res, next) {
+    async delete(req, res, next) {
         const playlistId = req.params.id
-
         try {
-            const playlist = await PlaylistService.deleteOne(playlistId)
-            res.status(200).json({ ...singleResponse, data: playlist })
+            const playlist = await PlaylistService.delete(playlistId)
+            res.status(OK).json({ ...singleResponse, data: playlist })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 }

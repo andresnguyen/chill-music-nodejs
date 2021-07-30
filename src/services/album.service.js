@@ -5,54 +5,51 @@ class AlbumService {
         page = Number.parseInt(page)
         limit = Number.parseInt(limit)
         const query = q ? { name: new RegExp(q, 'i') } : {}
-
         try {
             const albums = await Album.find(query)
                 .skip(page * limit)
                 .limit(limit)
                 .lean()
-
             const count = await Album.find(query).count()
-
             return { albums, page, limit, count }
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async getOne(albumId) {
+    async getById(albumId) {
         try {
-            return Album.findById(albumId).lean()
+            const album = await Album.findById(albumId).lean()
+            return album
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async postOne({ name }) {
-        const album = { name }
+    async create(newAlbum) {
         try {
-            return new Album({ ...album }).save()
+            const album = await new Album({ ...newAlbum }).save()
+            return album
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async updateOne(albumId, { name }) {
-        const newAlbum = { name } // validation
+    async update(albumId, updateAlbum) {
         try {
             const album = await Album.findById(albumId)
-            album.name = name
-            return Album.save()
+            return await album.save()
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async deleteOne(albumId) {
+    async delete(albumId) {
         try {
-            return Album.findByIdAndDelete(albumId)
+            const album = await Album.findByIdAndDelete(albumId)
+            return album
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 }

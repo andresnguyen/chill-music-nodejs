@@ -5,54 +5,51 @@ class PlaylistService {
         page = Number.parseInt(page)
         limit = Number.parseInt(limit)
         const query = q ? { name: new RegExp(q, 'i') } : {}
-
         try {
             const playlists = await Playlist.find(query)
                 .skip(page * limit)
                 .limit(limit)
                 .lean()
-
             const count = await Playlist.find(query).count()
-
             return { playlists, page, limit, count }
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async getOne(playlistId) {
+    async getById(playlistId) {
         try {
-            return Playlist.findById(playlistId).lean()
+            const playlist = await Playlist.findById(playlistId).lean()
+            return playlist
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async postOne({ name }) {
-        const playlist = { name }
+    async create(newPlaylist) {
         try {
-            return new Playlist({ ...playlist }).save()
+            const playlist = await new Playlist({ ...newPlaylist }).save()
+            return playlist
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async updateOne(playlistId, { name }) {
-        const newPlaylist = { name } // validation
+    async update(playlistId, updatePlaylist) {
         try {
             const playlist = await Playlist.findById(playlistId)
-            playlist.name = name
-            return playlist.save()
+            return await playlist.save()
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async deleteOne(playlistId) {
+    async delete(playlistId) {
         try {
-            return Playlist.findByIdAndDelete(playlistId)
+            const playlist = await Playlist.findByIdAndDelete(playlistId)
+            return playlist
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 }

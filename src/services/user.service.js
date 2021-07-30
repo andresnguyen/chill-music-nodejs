@@ -5,54 +5,51 @@ class UserService {
         page = Number.parseInt(page)
         limit = Number.parseInt(limit)
         const query = q ? { name: new RegExp(q, 'i') } : {}
-
         try {
             const users = await User.find(query)
                 .skip(page * limit)
                 .limit(limit)
                 .lean()
-
             const count = await User.find(query).count()
-
             return { users, page, limit, count }
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async getOne(userId) {
+    async getById(userId) {
         try {
-            return User.findById(userId).lean()
+            const user = await User.findById(userId).lean()
+            return user
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async postOne({ name }) {
-        const user = { name }
+    async create(newUser) {
         try {
-            return new User({ ...user }).save()
+            const user = await new User({ ...newUser }).save()
+            return user
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async updateOne(userId, { name }) {
-        const newUser = { name } // validation
+    async update(userId, updateUser) {
         try {
             const user = await User.findById(userId)
-            user.name = name
-            return user.save()
+            return await user.save()
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async deleteOne(userId) {
+    async delete(userId) {
         try {
-            return User.findByIdAndDelete(userId)
+            const user = await User.findByIdAndDelete(userId)
+            return user
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 }

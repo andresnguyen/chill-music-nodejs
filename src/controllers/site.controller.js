@@ -3,33 +3,17 @@ import {
     pluralResponse,
     failedResponse,
 } from '../constants/response.constant'
-import Song from '../models/song.model'
-
-let home = [
-    'Lựa chọn của Chillmusic',
-    'Made for you',
-    'Best of soundtracks',
-    'More like Peaceful Piano',
-    'Best K-Pop of 2020',
-    'Based on your recent listening',
-    'All about Viet hip-hop',
-    'Sleep tight',
-]
+import { OK, INTERNAL_SERVER } from '../constants/httpStatusCode.constant'
 
 class SiteController {
     async home(req, res, next) {
         try {
-            let songs = await Song.find({}).lean()
-            let index = 0
-
-            let homeResult = home.map((title) => ({
-                title,
-                list: songs.slice(index, (index += 10)),
-            }))
-
-            res.status(200).json({ ...pluralResponse, data: homeResult })
+            res.status(OK).json({ ...pluralResponse })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 }

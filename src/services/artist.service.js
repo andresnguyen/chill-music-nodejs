@@ -5,62 +5,60 @@ class ArtistService {
         page = Number.parseInt(page)
         limit = Number.parseInt(limit)
         const query = q ? { name: new RegExp(q, 'i') } : {}
-
         try {
             const artists = await Artist.find(query)
                 .skip(page * limit)
                 .limit(limit)
                 .lean()
-
             const count = await Artist.find(query).count()
-
             return { artists, page, limit, count }
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async getOne(artistId) {
+    async getById(artistId) {
         try {
-            return Artist.findById(artistId).lean()
+            const artist = await Artist.findById(artistId).lean()
+            return artist
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async postOne({ name }) {
-        const artist = { name }
+    async create(newArtist) {
         try {
-            return new Artist({ ...artist }).save()
+            const artist = await new Artist({ ...newArtist }).save()
+            return artist
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async updateOne(artistId, { name }) {
-        const newArtist = { name } // validation
+    async update(artistId, updateArtist) {
         try {
             const artist = await Artist.findById(artistId)
-            artist.name = name
-            return Artist.save()
+            return await artist.save()
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async deleteOne(artistId) {
+    async delete(artistId) {
         try {
-            return Artist.findByIdAndDelete(artistId)
+            const artist = await Artist.findByIdAndDelete(artistId)
+            return artist
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
-    async getOneBySlug(artistSlug) {
-        console.log(artistSlug)
+
+    async getBySlug(artistSlug) {
         try {
-            return Artist.findOne({ slug: artistSlug })
+            const artist = await Artist.findOne({ slug: artistSlug })
+            return artist
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 }

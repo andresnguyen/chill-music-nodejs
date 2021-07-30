@@ -4,53 +4,69 @@ import {
     pluralResponse,
     failedResponse,
 } from '../constants/response.constant'
+import { OK, INTERNAL_SERVER } from '../constants/httpStatusCode.constant'
 
 class AlbumController {
     async getAll(req, res, next) {
         try {
             const albums = await AlbumService.getAll(req.query)
-            return res.status(200).json({ ...pluralResponse, data: albums })
+            return res.status(OK).json({ ...pluralResponse, data: albums })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async getOne(req, res, next) {
+    async getById(req, res, next) {
         const albumId = req.params.id
         try {
-            const album = await AlbumService.getOne(albumId)
-            return res.status(200).json({ ...singleResponse, data: album })
+            const album = await AlbumService.getById(albumId)
+            return res.status(OK).json({ ...singleResponse, data: album })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async postOne(req, res, next) {
+    async create(req, res, next) {
         try {
-            const album = await AlbumService.postOne(req.body)
-            res.status(200).json({ ...singleResponse, data: album })
+            const album = await AlbumService.create(req.body)
+            res.status(OK).json({ ...singleResponse, data: album })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async updateOne(req, res, next) {
+    async update(req, res, next) {
         const albumId = req.params.id
         try {
-            const album = await AlbumService.updateOne(albumId, req.body)
-            res.status(200).json({ ...singleResponse, data: album })
+            const album = await AlbumService.update(albumId, req.body)
+            res.status(OK).json({ ...singleResponse, data: album })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 
-    async deleteOne(req, res, next) {
+    async delete(req, res, next) {
         const albumId = req.params.id
         try {
-            const album = await AlbumService.deleteOne(albumId)
-            res.status(200).json({ ...singleResponse, data: album })
+            const album = await AlbumService.findByIdAndDelete(albumId)
+            res.status(OK).json({ ...singleResponse, data: album })
         } catch (error) {
-            res.status(500).json({ ...failedResponse, message: error.message })
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message,
+            })
         }
     }
 }

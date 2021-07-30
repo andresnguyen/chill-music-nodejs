@@ -5,7 +5,6 @@ class SongService {
         page = Number.parseInt(page)
         limit = Number.parseInt(limit)
         const query = q ? { name: new RegExp(q, 'i') } : {}
-
         try {
             const songs = await Song.find(query)
                 .skip(page * limit)
@@ -14,43 +13,43 @@ class SongService {
             const count = await Song.find(query).count()
             return { songs, page, limit, count }
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async getOne(songId) {
-        try {
-            return Song.findById(songId)
-        } catch (error) {
-            throw new Error(error.message)
-        }
-    }
-
-    async postOne({ name }) {
-        const song = { name }
-        try {
-            return new Song({ ...song }).save()
-        } catch (error) {
-            throw new Error(error.message)
-        }
-    }
-
-    async updateOne(songId, { name }) {
-        const newSong = { name } // validation
+    async getById(songId) {
         try {
             const song = await Song.findById(songId)
-            song.name = name
-            return song.save()
+            return song
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
         }
     }
 
-    async deleteOne(songId) {
+    async create(newSong) {
         try {
-            return Song.findByIdAndDelete(songId)
+            const song = await new Song({ ...newSong }).save()
+            return song
         } catch (error) {
-            throw new Error(error.message)
+            throw new Error(error)
+        }
+    }
+
+    async update(songId, updateSong) {
+        try {
+            const song = await Song.findById(songId)
+            return await song.save()
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
+    async delete(songId) {
+        try {
+            const song = await Song.findByIdAndDelete(songId)
+            return song
+        } catch (error) {
+            throw new Error(error)
         }
     }
 }
