@@ -52,6 +52,17 @@ class PlaylistService {
             throw new Error(error)
         }
     }
+
+    async deleteSoft(playlistId) {
+        try {
+            const playlist = await Playlist.findByIdAndDelete(playlistId)
+            playlist.isDelete = 1
+            await playlist.save()
+            return playlist
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
 }
 
 export default new PlaylistService()

@@ -52,6 +52,17 @@ class UserService {
             throw new Error(error)
         }
     }
+
+    async deleteSoft(userId) {
+        try {
+            const user = await User.findByIdAndDelete(userId)
+            user.isDelete = 1
+            await user.save()
+            return user
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
 }
 
 export default new UserService()

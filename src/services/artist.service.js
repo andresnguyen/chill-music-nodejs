@@ -61,6 +61,17 @@ class ArtistService {
             throw new Error(error)
         }
     }
+
+    async deleteSoft(artistId) {
+        try {
+            const artist = await Artist.findByIdAndDelete(artistId)
+            artist.isDelete = 1
+            await artist.save()
+            return artist
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
 }
 
 export default new ArtistService()

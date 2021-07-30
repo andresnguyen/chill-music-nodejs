@@ -4,27 +4,27 @@ const playlistSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: true,
+            required: true
         },
-        image: {
+        imageUrl: {
             type: String,
-            required: true,
+            required: true
         },
-        listSongs: {
+        songList: {
             type: Array,
-            required: true,
+            required: true
         },
         isActive: {
-            type: Number,
-            default: 0,
+            type: Boolean,
+            default: false
         },
         isDelete: {
-            type: Number,
-            default: 0,
-        },
+            type: Boolean,
+            default: false
+        }
     },
     {
-        timestamps: true,
+        timestamps: true
     }
 )
 

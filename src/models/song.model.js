@@ -4,39 +4,40 @@ const songSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: true,
+            required: true
         },
         path: {
             type: String,
-            // required: true,
+            required: true
         },
-        image: {
+        imageUrl: {
             type: String,
-            // required: true,
+            required: true
         },
-        genre: {
+        genreList: {
             type: Array,
-            // required: true,
+            required: true
         },
-        artists: {
+        artistList: {
             type: Array,
-            // required: true,
+            required: true
         },
         view: {
             type: Number,
-            default: 0,
+            min: 0,
+            default: 0
         },
         isActive: {
-            type: Number,
-            default: 0,
+            type: Boolean,
+            default: false
         },
         isDelete: {
-            type: Number,
-            default: 0,
-        },
+            type: Boolean,
+            default: false
+        }
     },
     {
-        timestamps: true,
+        timestamps: true
     }
 )
 

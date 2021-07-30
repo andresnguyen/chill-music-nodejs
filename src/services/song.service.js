@@ -52,6 +52,17 @@ class SongService {
             throw new Error(error)
         }
     }
+
+    async deleteSoft(songId) {
+        try {
+            const song = await Song.findByIdAndDelete(songId)
+            song.isDelete = 1
+            await song.save()
+            return song
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
 }
 
 export default new SongService()

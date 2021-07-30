@@ -2,69 +2,69 @@ const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema(
     {
-        fullname: {
+        fullName: {
             type: String,
-            required: true,
+            required: true
         },
         email: {
             type: String,
-            required: true,
+            required: true
         },
         password: {
             type: String,
-            required: true,
+            required: true
         },
-        avatar: {
+        avatarUrl: {
             type: String,
-            required: true,
+            required: true
         },
         dateOfBirth: {
             type: Date,
-            required: true,
+            required: true
         },
         facebook: {
             type: Number,
-            default: 0,
+            default: 0
         },
         gender: {
             type: Number,
-            default: 0,
+            default: 1
         },
-        listFavoriteSongs: {
+        favoriteSongList: {
             type: Array,
-            default: 0,
+            default: 0
         },
-        listPlaylists: {
+        playlistList: {
             type: Array,
-            default: 0,
+            default: 0
         },
-        listRecentSongs: {
+        recentSongList: {
             type: Array,
-            default: 0,
+            default: 0
         },
-        listSongsUpload: {
+        songUploadList: {
             type: Array,
-            default: 0,
+            default: 0
         },
-        listFollowingArtists: {
+        followingArtistList: {
             type: Array,
-            default: 0,
+            default: 0
         },
         role: {
             type: Number,
-            default: 0,
+            default: 0
         },
         isActive: {
-            type: Number,
-            default: 0,
+            type: Boolean,
+            default: false
         },
         isDelete: {
-            type: Number,
-            default: 0,
-        },
+            type: Boolean,
+            default: false
+        }
     },
     {
-        timestamps: true,
+        timestamps: true
     }
 )
 

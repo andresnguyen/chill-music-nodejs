@@ -52,6 +52,17 @@ class AlbumService {
             throw new Error(error)
         }
     }
+
+    async deleteSoft(albumId) {
+        try {
+            const album = await Album.findByIdAndDelete(albumId)
+            album.isDelete = 1
+            await album.save()
+            return album
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
 }
 
 export default new AlbumService()

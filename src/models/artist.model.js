@@ -6,35 +6,35 @@ const artistSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: true,
+            required: true
         },
-        avatar: {
+        avatarUrl: {
             type: String,
-            required: true,
+            required: true
         },
-        banner: {
+        bannerUrl: {
             type: String,
-            required: true,
+            required: true
         },
-        genre: {
+        genreList: {
             type: Array,
-            required: true,
+            required: true
         },
         description: {
             type: String,
-            required: true,
+            required: true
         },
         isActive: {
-            type: Number,
-            default: 0,
+            type: Boolean,
+            default: false
         },
         isDelete: {
-            type: Number,
-            default: 0,
-        },
+            type: Boolean,
+            default: false
+        }
     },
     {
-        timestamps: true,
+        timestamps: true
     }
 )
 
