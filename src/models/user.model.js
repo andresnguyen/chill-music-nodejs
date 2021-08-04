@@ -30,37 +30,36 @@ const userSchema = new mongoose.Schema(
             type: Number,
             default: 1
         },
-        favoriteSongList: {
+        favoriteSongIdList: {
             type: Array,
             default: 0
         },
-        playlistList: {
+        playlistIdList: {
             type: Array,
             default: 0
         },
-        recentSongList: {
+        recentSongIdList: {
             type: Array,
             default: 0
         },
-        songUploadList: {
+        songUploadIdList: {
             type: Array,
             default: 0
         },
-        followingArtistList: {
-            type: Array,
-            default: 0
+        followingArtistIdList: {
+            type: Array
         },
         role: {
             type: Number,
             default: 0
         },
         isActive: {
-            type: Boolean,
-            default: false
+            type: Number,
+            default: 0
         },
         isDelete: {
-            type: Boolean,
-            default: false
+            type: Number,
+            default: 0
         }
     },
     {

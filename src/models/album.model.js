@@ -6,7 +6,7 @@ const albumSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        songList: {
+        songIdList: {
             type: Array,
             required: true
         },
@@ -19,12 +19,12 @@ const albumSchema = new mongoose.Schema(
             required: true
         },
         isActive: {
-            type: Boolean,
-            default: false
+            type: Number,
+            default: 0
         },
         isDelete: {
-            type: Boolean,
-            default: false
+            type: Number,
+            default: 0
         }
     },
     {

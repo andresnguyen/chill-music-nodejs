@@ -25,12 +25,12 @@ const artistSchema = new mongoose.Schema(
             required: true
         },
         isActive: {
-            type: Boolean,
-            default: false
+            type: Number,
+            default: 0
         },
         isDelete: {
-            type: Boolean,
-            default: false
+            type: Number,
+            default: 0
         }
     },
     {

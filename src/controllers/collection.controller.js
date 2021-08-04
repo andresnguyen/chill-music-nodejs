@@ -1,4 +1,4 @@
-import AlbumService from '../services/album.service'
+import CollectionService from '../services/collection.service'
 import {
     singleResponse,
     pluralResponse,
@@ -11,8 +11,11 @@ class CollectionController {
 
     async getFavoriteSongList(req, res, next) {
         try {
-            const albums = await AlbumService.getAll(req.query)
-            return res.status(OK).json({ ...pluralResponse, data: albums })
+            const favoriteSongList =
+                await CollectionService.getFavoriteSongList(req.user._id)
+            return res
+                .status(OK)
+                .json({ ...pluralResponse, data: favoriteSongList })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -22,10 +25,12 @@ class CollectionController {
     }
 
     async createFavoriteSong(req, res, next) {
-        const albumId = req.params.id
         try {
-            const album = await AlbumService.getById(albumId)
-            return res.status(OK).json({ ...singleResponse, data: album })
+            const songId = await CollectionService.createFavoriteSong(
+                req.user._id,
+                req.body.songId
+            )
+            return res.status(OK).json({ ...singleResponse, data: songId })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -35,10 +40,12 @@ class CollectionController {
     }
 
     async deleteFavoriteSong(req, res, next) {
-        const albumId = req.params.id
         try {
-            const album = await AlbumService.findByIdAndDelete(albumId)
-            res.status(OK).json({ ...singleResponse, data: album })
+            const songId = await CollectionService.deleteFavoriteSong(
+                req.user._id,
+                req.params.songId
+            )
+            res.status(OK).json({ ...singleResponse, data: songId })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -51,8 +58,12 @@ class CollectionController {
 
     async getPlaylistList(req, res, next) {
         try {
-            const albums = await AlbumService.getAll(req.query)
-            return res.status(OK).json({ ...pluralResponse, data: albums })
+            const playlistList = await CollectionService.getPlaylistList(
+                req.user._id
+            )
+            return res
+                .status(OK)
+                .json({ ...pluralResponse, data: playlistList })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -63,8 +74,10 @@ class CollectionController {
 
     async getPlaylistById(req, res, next) {
         try {
-            const albums = await AlbumService.getAll(req.query)
-            return res.status(OK).json({ ...pluralResponse, data: albums })
+            const playlist = await CollectionService.getPlaylistById(
+                req.params.playlistId
+            )
+            return res.status(OK).json({ ...pluralResponse, data: playlist })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -74,10 +87,12 @@ class CollectionController {
     }
 
     async createPlaylist(req, res, next) {
-        const albumId = req.params.id
         try {
-            const album = await AlbumService.getById(albumId)
-            return res.status(OK).json({ ...singleResponse, data: album })
+            const playlist = await CollectionService.createPlaylist(
+                req.user._id,
+                req.body
+            )
+            return res.status(OK).json({ ...singleResponse, data: playlist })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -89,7 +104,7 @@ class CollectionController {
     async updatePlaylist(req, res, next) {
         const albumId = req.params.id
         try {
-            const album = await AlbumService.update(albumId, req.body)
+            const album = await CollectionService.update(albumId, req.body)
             res.status(OK).json({ ...singleResponse, data: album })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
@@ -100,10 +115,12 @@ class CollectionController {
     }
 
     async deletePlaylist(req, res, next) {
-        const albumId = req.params.id
         try {
-            const album = await AlbumService.findByIdAndDelete(albumId)
-            res.status(OK).json({ ...singleResponse, data: album })
+            const playlist = await CollectionService.deletePlaylist(
+                req.user._id,
+                req.params.playlistId
+            )
+            res.status(OK).json({ ...singleResponse, data: playlist })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -113,10 +130,13 @@ class CollectionController {
     }
 
     async addSongToPlaylist(req, res, next) {
-        const albumId = req.params.id
         try {
-            const album = await AlbumService.update(albumId, req.body)
-            res.status(OK).json({ ...singleResponse, data: album })
+            const result = await CollectionService.addSongToPlaylist(
+                req.user_id,
+                req.params.playlistId,
+                req.body.songId
+            )
+            res.status(OK).json({ ...singleResponse, data: result })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -126,10 +146,13 @@ class CollectionController {
     }
 
     async deleteSongFromPlaylist(req, res, next) {
-        const albumId = req.params.id
         try {
-            const album = await AlbumService.update(albumId, req.body)
-            res.status(OK).json({ ...singleResponse, data: album })
+            const result = await CollectionService.deleteSongFromPlaylist(
+                req.user_id,
+                req.params.playlistId,
+                req.body.songId
+            )
+            res.status(OK).json({ ...singleResponse, data: result })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -137,13 +160,13 @@ class CollectionController {
             })
         }
     }
-
+    // HERE
     // ALBUMS=============================================
 
     async getAlbumList(req, res, next) {
         try {
-            const albums = await AlbumService.getAll(req.query)
-            return res.status(OK).json({ ...pluralResponse, data: albums })
+            const albumList = await CollectionService.getAlbumList(req.user._id)
+            return res.status(OK).json({ ...pluralResponse, data: albumList })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -154,8 +177,11 @@ class CollectionController {
 
     async getAlbumById(req, res, next) {
         try {
-            const albums = await AlbumService.getAll(req.query)
-            return res.status(OK).json({ ...pluralResponse, data: albums })
+            const album = await CollectionService.getAlbumById(
+                req.user._id,
+                req.params.albumId
+            )
+            return res.status(OK).json({ ...singleResponse, data: album })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -166,8 +192,11 @@ class CollectionController {
 
     async addAlbumToCollection(req, res, next) {
         try {
-            const albums = await AlbumService.getAll(req.query)
-            return res.status(OK).json({ ...pluralResponse, data: albums })
+            const result = await CollectionService.addAlbumToCollection(
+                req.user._id,
+                req.body.albumId
+            )
+            return res.status(OK).json({ ...singleResponse, data: result })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -178,8 +207,11 @@ class CollectionController {
 
     async deleteAlbumFromCollection(req, res, next) {
         try {
-            const albums = await AlbumService.getAll(req.query)
-            return res.status(OK).json({ ...pluralResponse, data: albums })
+            const result = await CollectionService.deleteAlbumFromCollection(
+                req.user._id,
+                req.params.albumId
+            )
+            return res.status(OK).json({ ...singleResponse, data: result })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -192,8 +224,10 @@ class CollectionController {
 
     async getArtistList(req, res, next) {
         try {
-            const albums = await AlbumService.getAll(req.query)
-            return res.status(OK).json({ ...pluralResponse, data: albums })
+            const artistList = await CollectionService.getArtistList(
+                req.user._id
+            )
+            return res.status(OK).json({ ...pluralResponse, data: artistList })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -204,8 +238,11 @@ class CollectionController {
 
     async addArtistToCollection(req, res, next) {
         try {
-            const albums = await AlbumService.getAll(req.query)
-            return res.status(OK).json({ ...pluralResponse, data: albums })
+            const result = await CollectionService.addArtistToCollection(
+                req.user._id,
+                req.body.artistId
+            )
+            return res.status(OK).json({ ...singleResponse, data: result })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -216,8 +253,11 @@ class CollectionController {
 
     async deleteArtistFromCollection(req, res, next) {
         try {
-            const albums = await AlbumService.getAll(req.query)
-            return res.status(OK).json({ ...pluralResponse, data: albums })
+            const result = await CollectionService.deleteArtistFromCollection(
+                req.user._id,
+                req.params.artistId
+            )
+            return res.status(OK).json({ ...singleResponse, data: result })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -230,8 +270,12 @@ class CollectionController {
 
     async getMySongList(req, res, next) {
         try {
-            const albums = await AlbumService.getAll(req.query)
-            return res.status(OK).json({ ...pluralResponse, data: albums })
+            const songUploadList = await CollectionService.getMySongList(
+                req.user._id
+            )
+            return res
+                .status(OK)
+                .json({ ...pluralResponse, data: songUploadList })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -242,7 +286,7 @@ class CollectionController {
 
     async createMySong(req, res, next) {
         try {
-            const album = await AlbumService.create(req.body)
+            const album = await CollectionService.createMySong(req.user._id)
             res.status(OK).json({ ...singleResponse, data: album })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({

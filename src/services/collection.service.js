@@ -2,31 +2,42 @@ import Album from '../models/album.model'
 import User from '../models/user.model'
 import Artist from '../models/artist.model'
 import Playlist from '../models/playlist.model'
+import Song from '../models/song.model'
 
 class CollectionService {
     // FAVORITE SONG===========================================
 
-    async getFavoriteSongList(req, res, next) {
+    async getFavoriteSongIdList(userId) {
         try {
-            const albums = await AlbumService.getAll(req.query)
+            const user = await User.getById(userId)
+            const favoriteSongIdList = await Song.find({
+                _id: { $in: user.favoriteSongIdList }
+            })
+            return favoriteSongIdList
         } catch (error) {
             throw new Error(error)
         }
     }
 
-    async createFavoriteSong(req, res, next) {
-        const albumId = req.params.id
+    async createFavoriteSong(userId, songId) {
         try {
-            const album = await AlbumService.getById(albumId)
+            const user = await User.getById(userId)
+            user.favoriteSongIdList.unshift(songId)
+            await user.save()
+            return songId
         } catch (error) {
             throw new Error(error)
         }
     }
 
-    async deleteFavoriteSong(req, res, next) {
-        const albumId = req.params.id
+    async deleteFavoriteSong(userId, songId) {
         try {
-            const album = await AlbumService.findByIdAndDelete(albumId)
+            const user = await User.getById(userId)
+            user.favoriteSongIdList = user.favoriteSongIdList.filter(
+                (favoriteSongId) => favoriteSongId !== songId
+            )
+            await user.save()
+            return songId
         } catch (error) {
             throw new Error(error)
         }
@@ -34,50 +45,39 @@ class CollectionService {
 
     // PLAYLIST============================================
 
-    async getPlaylistList(req, res, next) {
+    async getPlaylistList(userId) {
         try {
-            const albums = await AlbumService.getAll(req.query)
+            const user = await User.findById(userId)
+            const playlistList = await Playlist.find({
+                _id: { $in: user.playlistIdList }
+            })
+            return playlistList
         } catch (error) {
             throw new Error(error)
         }
     }
 
-    async getPlaylistById(req, res, next) {
+    async getPlaylistById(playlistId) {
         try {
-            const albums = await AlbumService.getAll(req.query)
+            const playlist = await Playlist.getById(playlistId)
+            return playlist
         } catch (error) {
             throw new Error(error)
         }
     }
 
-    async createPlaylist(req, res, next) {
-        const albumId = req.params.id
+    async createPlaylist(userId, playlist) {
         try {
-            const album = await AlbumService.getById(albumId)
+            const user = await User.findById(userId)
+            const playlist = await new Playlist({ name: playlist.name })
+            user.playlistIdList.unshift(playlist._id)
+            return playlist
         } catch (error) {
             throw new Error(error)
         }
     }
 
-    async updatePlaylist(req, res, next) {
-        const albumId = req.params.id
-        try {
-            const album = await AlbumService.update(albumId, req.body)
-        } catch (error) {
-            throw new Error(error)
-        }
-    }
-
-    async deletePlaylist(req, res, next) {
-        const albumId = req.params.id
-        try {
-            const album = await AlbumService.findByIdAndDelete(albumId)
-        } catch (error) {
-            throw new Error(error)
-        }
-    }
-
-    async addSongToPlaylist(req, res, next) {
+    async updatePlaylist() {
         const albumId = req.params.id
         try {
             const album = await AlbumService.update(albumId, req.body)
@@ -86,10 +86,38 @@ class CollectionService {
         }
     }
 
-    async deleteSongFromPlaylist(req, res, next) {
-        const albumId = req.params.id
+    async deletePlaylist(userId, playlistId) {
         try {
-            const album = await AlbumService.update(albumId, req.body)
+            const user = await User.getById(userId)
+            user.playlistIdList = user.playlistIdList.filter(
+                (playlistIdItem) => playlistIdItem !== playlistId
+            )
+            await user.save()
+            return true
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
+    async addSongToPlaylist(userId, playlistId, songId) {
+        try {
+            const playlist = await Playlist.findById(playlistId)
+            playlist.songIdList.unshift(songId)
+            await playlist.save()
+            return true
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
+    async deleteSongFromPlaylist(userId, playlistId, songId) {
+        try {
+            const playlist = await Playlist.getById(playlistId)
+            playlist.songIdList = playlist.songIdList.filter(
+                (songIdItem) => songIdItem !== songId
+            )
+            await playlist.save()
+            return true
         } catch (error) {
             throw new Error(error)
         }
@@ -97,33 +125,46 @@ class CollectionService {
 
     // ALBUMS=============================================
 
-    async getAlbumList(req, res, next) {
+    async getAlbumList(userId) {
         try {
-            const albums = await AlbumService.getAll(req.query)
+            const user = await User.findById(userId)
+            const albumList = await Album.find({
+                _id: { $in: user.albumIdList }
+            })
+            return albumList
         } catch (error) {
             throw new Error(error)
         }
     }
 
-    async getAlbumById(req, res, next) {
+    async getAlbumById(userId, albumId) {
         try {
-            const albums = await AlbumService.getAll(req.query)
+            const album = await Album.getById(albumId)
+            return album
         } catch (error) {
             throw new Error(error)
         }
     }
 
-    async addAlbumToCollection(req, res, next) {
+    async addAlbumToCollection(userId, albumId) {
         try {
-            const albums = await AlbumService.getAll(req.query)
+            const user = await User.findById(userId)
+            user.albumIdList.unshift(albumId)
+            await user.save()
+            return true
         } catch (error) {
             throw new Error(error)
         }
     }
 
-    async deleteAlbumFromCollection(req, res, next) {
+    async deleteAlbumFromCollection(userId, albumId) {
         try {
-            const albums = await AlbumService.getAll(req.query)
+            const user = await User.findById(userId)
+            user.albumIdList = user.albumIdList.filter(
+                (albumIdItem) => albumIdItem !== userId
+            )
+            await user.save()
+            return true
         } catch (error) {
             throw new Error(error)
         }
@@ -131,25 +172,37 @@ class CollectionService {
 
     // ARTIST==============================================
 
-    async getArtistList(req, res, next) {
+    async getArtistList(userId) {
         try {
-            const albums = await AlbumService.getAll(req.query)
+            const user = await User.getById(userId)
+            const artistList = await Artist.find({
+                _id: { $in: user.artistIdList }
+            })
+            return artistList
         } catch (error) {
             throw new Error(error)
         }
     }
 
-    async addArtistToCollection(req, res, next) {
+    async addArtistToCollection(userId, artistId) {
         try {
-            const albums = await AlbumService.getAll(req.query)
+            const user = await User.getById(userId)
+            user.artistIdList.unshift(artistId)
+            await user.save()
+            return true
         } catch (error) {
             throw new Error(error)
         }
     }
 
-    async deleteArtistFromCollection(req, res, next) {
+    async deleteArtistFromCollection(userId, artistId) {
         try {
-            const albums = await AlbumService.getAll(req.query)
+            const user = await User.getById(userId)
+            user.artistIdList = user.artistIdList.filter(
+                (artistIdItem) => artistIdItem !== artistId
+            )
+            await user.save()
+            return true
         } catch (error) {
             throw new Error(error)
         }
@@ -157,15 +210,19 @@ class CollectionService {
 
     // MY SONG===============================================
 
-    async getMySongList(req, res, next) {
+    async getMySongList(userId) {
         try {
-            const albums = await AlbumService.getAll(req.query)
+            const user = await User.getById(userId)
+            const songUploadList = await Song.find({
+                _id: { $in: user.songUploadIdList }
+            })
+            return songUploadList
         } catch (error) {
             throw new Error(error)
         }
     }
 
-    async createMySong(req, res, next) {
+    async createMySong() {
         try {
             const album = await AlbumService.create(req.body)
         } catch (error) {

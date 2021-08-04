@@ -10,17 +10,17 @@ const playlistSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        songList: {
+        songIdList: {
             type: Array,
             required: true
         },
         isActive: {
-            type: Boolean,
-            default: false
+            type: Number,
+            default: 0
         },
         isDelete: {
-            type: Boolean,
-            default: false
+            type: Number,
+            default: 0
         }
     },
     {

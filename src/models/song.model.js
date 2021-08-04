@@ -28,12 +28,12 @@ const songSchema = new mongoose.Schema(
             default: 0
         },
         isActive: {
-            type: Boolean,
-            default: false
+            type: Number,
+            default: 0
         },
         isDelete: {
-            type: Boolean,
-            default: false
+            type: Number,
+            default: 0
         }
     },
     {

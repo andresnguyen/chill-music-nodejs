@@ -57,8 +57,7 @@ class SongService {
         try {
             const song = await Song.findByIdAndDelete(songId)
             song.isDelete = 1
-            await song.save()
-            return song
+            return await song.save()
         } catch (error) {
             throw new Error(error)
         }
