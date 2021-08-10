@@ -7,47 +7,52 @@ const userSchema = new mongoose.Schema(
             required: true
         },
         email: {
-            type: String,
-            required: true
+            type: String
+            // required: true
         },
         password: {
-            type: String,
-            required: true
+            type: String
+            // required: true
         },
         avatarUrl: {
-            type: String,
-            required: true
+            type: String
+            // required: true
         },
         dateOfBirth: {
-            type: Date,
-            required: true
+            type: Date
+            // required: true
         },
-        facebook: {
-            type: Number,
-            default: 0
+        facebookId: {
+            type: String,
+            default: ''
+        },
+        googleId: {
+            type: String,
+            default: ''
         },
         gender: {
-            type: Number,
-            default: 1
+            type: String,
+            default: 'male'
         },
         favoriteSongIdList: {
             type: Array,
-            default: 0
+            default: []
         },
         playlistIdList: {
             type: Array,
-            default: 0
+            default: []
         },
         recentSongIdList: {
             type: Array,
-            default: 0
+            default: []
         },
         songUploadIdList: {
             type: Array,
-            default: 0
+            default: []
         },
         followingArtistIdList: {
-            type: Array
+            type: Array,
+            default: []
         },
         role: {
             type: Number,
@@ -55,7 +60,7 @@ const userSchema = new mongoose.Schema(
         },
         isActive: {
             type: Number,
-            default: 0
+            default: 1
         },
         isDelete: {
             type: Number,

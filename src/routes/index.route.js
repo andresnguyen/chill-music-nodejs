@@ -5,9 +5,11 @@ import playlistRoute from './playlist.route'
 import albumRoute from './album.route'
 import artistRoute from './artist.route'
 import collectionRoute from './collection.route'
+import authRoute from './auth.route'
 
 function route(app) {
     app.use('/api/collection', collectionRoute)
+    app.use('/auth', authRoute)
     app.use('/api/users', userRoute)
     app.use('/api/songs', songRoute)
     app.use('/api/playlists', playlistRoute)
