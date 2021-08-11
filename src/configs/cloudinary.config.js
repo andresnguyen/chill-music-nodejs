@@ -19,10 +19,6 @@ const storage = new CloudinaryStorage({
     filename: function (req, file, cb) {
         cb(null, file.originalname)
     },
-    params1: {
-        format: 'mp3',
-        resource_type: 'video'
-    },
     params: async (req, file) => {
         let folderName = 'images'
         let resourceType = 'image'
