@@ -31,12 +31,8 @@ router.get(
     AuthController.logIn
 )
 
-router.get(
-    '/local',
-    passportLocal.authenticate('local', {
-        session: false
-    }),
-    AuthController.logIn
-)
+router.post('/local', passportLocal.authenticate('local'), AuthController.logIn)
+
+router.post('/register', AuthController.register)
 
 export default router

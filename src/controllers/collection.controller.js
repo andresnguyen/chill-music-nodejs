@@ -286,8 +286,11 @@ class CollectionController {
 
     async createMySong(req, res, next) {
         try {
-            const album = await CollectionService.createMySong(req.user._id)
-            res.status(OK).json({ ...singleResponse, data: album })
+            const song = await CollectionService.createMySong(
+                req.user?._id,
+                req
+            )
+            res.status(OK).json({ ...singleResponse, data: song })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,

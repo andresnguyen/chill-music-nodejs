@@ -25,13 +25,13 @@ passport.use(
             ]
         },
         async (accessToken, refreshToken, profile, done) => {
-            console.log({ profile })
+            console.log({ profile: profile })
             try {
                 const user = await User.findOne({ facebookId: profile.id })
                 if (user) return done(null, user)
                 const newUser = await new User({
-                    fullName: profile.displayName,
                     facebookId: profile.id,
+                    fullName: profile.displayName,
                     email: profile.email,
                     birthday: toDate(profile.birthday),
                     avatarUrl: profile.picture,

@@ -3,6 +3,7 @@ import User from '../models/user.model'
 import Artist from '../models/artist.model'
 import Playlist from '../models/playlist.model'
 import Song from '../models/song.model'
+import fileUploader from '../configs/cloudinary.config'
 
 class CollectionService {
     // FAVORITE SONG===========================================
@@ -222,9 +223,10 @@ class CollectionService {
         }
     }
 
-    async createMySong() {
+    async createMySong(userId, req) {
         try {
-            const album = await AlbumService.create(req.body)
+            if (!req.file) throw new Error('No file uploaded')
+            return req.file
         } catch (error) {
             throw new Error(error)
         }
