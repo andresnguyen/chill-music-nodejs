@@ -8,7 +8,7 @@ import passport from 'passport'
 import session from 'express-session'
 
 import route from './routes/index.route.js'
-import connectDatabase from './configs/database.js'
+import connectDatabase from './configs/database.config.js'
 import { handleError } from './middlewares/error.middleware'
 import { accessLogStream } from './utils/helper'
 
