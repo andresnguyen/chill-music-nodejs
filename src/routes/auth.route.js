@@ -1,9 +1,9 @@
 import express from 'express'
 const router = express.Router()
 import AuthController from '../controllers/auth.controller'
-import passportFacebook from '../authentication/facebook'
-import passportGoogle from '../authentication/google'
-import passportLocal from '../authentication/local'
+import passportFacebook from '../auth/facebook'
+import passportGoogle from '../auth/google'
+import passportLocal from '../auth/local'
 
 router.get(
     '/facebook',
@@ -20,7 +20,10 @@ router.get(
 router.get(
     '/google',
     passportGoogle.authenticate('google', {
-        scope: 'https://www.googleapis.com/auth/plus.login'
+        scope: [
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email'
+        ]
     })
 )
 router.get(

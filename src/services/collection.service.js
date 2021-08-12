@@ -226,7 +226,16 @@ class CollectionService {
     async createMySong(userId, req) {
         try {
             if (!req.file) throw new Error('No file uploaded')
-            return req.file
+            const user = await User.findById(userId)
+            const song = await new Song({
+                name: req.file.originalname,
+                path: req.file.path,
+                imageUrl: user.avatarUrl,
+                artistList: [user._id]
+            }).save()
+            user.songUploadIdList.unshift()
+            user.save()
+            return song
         } catch (error) {
             throw new Error(error)
         }

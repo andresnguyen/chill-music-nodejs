@@ -16,7 +16,7 @@ const songSchema = new mongoose.Schema(
         },
         genreList: {
             type: Array,
-            required: true
+            default: []
         },
         artistList: {
             type: Array,

@@ -5,7 +5,7 @@ import morgan from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
 import passport from 'passport'
-import session from 'express-session'
+// import session from 'express-session'
 
 import route from './routes/index.route.js'
 import connectDatabase from './configs/database.config.js'
@@ -28,15 +28,15 @@ app.use(express.json())
 app.use(helmet())
 app.use(express.urlencoded({ extended: true }))
 
-app.use(
-    session({
-        secret: 's3cr3t',
-        resave: true,
-        saveUninitialized: true
-    })
-)
+// app.use(
+//     session({
+//         secret: 's3cr3t',
+//         resave: true,
+//         saveUninitialized: true
+//     })
+// )
 app.use(passport.initialize())
-app.use(passport.session())
+// app.use(passport.session())
 
 // logger
 if (!isProduction) app.use(morgan('combined', { stream: accessLogStream }))
@@ -55,6 +55,7 @@ app.use(function (req, res, next) {
     next(err)
 })
 
+// handle error
 app.use(handleError)
 
 app.listen(port, () => console.log(`Server is running at port ${port}`))

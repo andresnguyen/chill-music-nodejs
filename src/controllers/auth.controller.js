@@ -10,7 +10,12 @@ import { AuthService } from '../services/auth.service'
 class AuthController {
     async logIn(req, res, next) {
         try {
-            res.status(OK).json({ ...singleResponse, data: req.user })
+            const token = await AuthService.logIn(req.user)
+            res.status(OK).json({
+                ...singleResponse,
+                data: token,
+                user: req.user
+            })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,

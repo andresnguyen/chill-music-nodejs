@@ -1,37 +1,28 @@
 import passport from 'passport'
-import { Strategy as FacebookStrategy } from 'passport-facebook'
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 import User from '../models/user.model'
 import { toDate } from '../utils/date'
 import {
-    FACEBOOK_CLIENT_ID,
-    FACEBOOK_CLIENT_SECRET,
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
     DOMAIN
 } from '../constants/auth.constant'
 
 passport.use(
-    new FacebookStrategy(
+    new GoogleStrategy(
         {
-            clientID: process.env.FACEBOOK_CLIENT_ID || FACEBOOK_CLIENT_ID,
+            clientID: process.env.GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID,
             clientSecret:
-                process.env.FACEBOOK_CLIENT_SECRET || FACEBOOK_CLIENT_SECRET,
-            callbackURL: `${DOMAIN}/auth/facebook/callback`,
-            profileFields: [
-                'id',
-                'displayName',
-                'email',
-                'birthday',
-                'gender',
-                'picture'
-            ]
+                process.env.GOOGLE_CLIENT_SECRET || GOOGLE_CLIENT_SECRET,
+            callbackURL: `${DOMAIN}/auth/google/callback`
         },
         async (accessToken, refreshToken, profile, done) => {
-            console.log({ profile: profile })
             try {
-                const user = await User.findOne({ facebookId: profile.id })
+                const user = await User.findOne({ googleId: profile.id })
                 if (user) return done(null, user)
                 const newUser = await new User({
-                    facebookId: profile.id,
                     fullName: profile.displayName,
+                    googleId: profile.id,
                     email: profile.email,
                     birthday: toDate(profile.birthday),
                     avatarUrl: profile.picture,
