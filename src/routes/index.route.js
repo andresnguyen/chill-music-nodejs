@@ -9,7 +9,7 @@ import authRoute from './auth.route'
 
 function route(app) {
     app.use('/api/collection', collectionRoute)
-    app.use('/auth', authRoute)
+    app.use('/api/auth', authRoute)
     app.use('/api/users', userRoute)
     app.use('/api/songs', songRoute)
     app.use('/api/playlists', playlistRoute)

@@ -5,7 +5,7 @@ import {
     failedResponse
 } from '../constants/response.constant'
 import { OK, INTERNAL_SERVER } from '../constants/httpStatusCode.constant'
-import { AuthService } from '../services/auth.service'
+import AuthService from '../services/auth.service'
 
 class AuthController {
     async logIn(req, res, next) {
