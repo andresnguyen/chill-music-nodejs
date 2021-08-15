@@ -1,5 +1,5 @@
 import User from '../models/user.model'
-import { generatorAccessToken } from '../utils/auth'
+import { encodePassword, generatorAccessToken } from '../utils/auth'
 
 class AuthService {
     async logIn(user) {
@@ -13,6 +13,7 @@ class AuthService {
 
     async register(userRegister) {
         try {
+            userRegister.password = await encodePassword(userRegister.password)
             const user = await new User({ ...userRegister }).save()
             return user
         } catch (error) {
