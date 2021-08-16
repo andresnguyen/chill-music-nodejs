@@ -10,9 +10,9 @@ export const verifyPassword = async (hash, password) => {
     return await bcrypt.compare(password, hash)
 }
 
-export const generateAccessToken = (staffId) => {
+export const generateAccessToken = (userId) => {
     return jwt.sign(
-        { staffId },
+        { userId },
         process.env.ACCESS_TOKEN_SECRET || 'loveyou3000',
         { expiresIn: '2000000s' }
     )

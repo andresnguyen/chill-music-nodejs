@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+import { encodePassword } from '../utils/auth'
 
 const userSchema = new mongoose.Schema(
     {
@@ -24,12 +25,10 @@ const userSchema = new mongoose.Schema(
             // required: true
         },
         facebookId: {
-            type: String,
-            default: ''
+            type: String
         },
         googleId: {
-            type: String,
-            default: ''
+            type: String
         },
         gender: {
             type: String,
@@ -72,5 +71,17 @@ const userSchema = new mongoose.Schema(
         timestamps: true
     }
 )
+
+userSchema.pre('save', async function hashPassword(next) {
+    try {
+        const user = this
+        if (user.isModified('password')) {
+            user.password = await encodePassword(user.password)
+        }
+        next()
+    } catch (error) {
+        next(error)
+    }
+})
 
 export default mongoose.model('user', userSchema, 'users')

@@ -290,7 +290,7 @@ class CollectionController {
                 req.user?._id,
                 req
             )
-            res.status(OK).json({ ...singleResponse, data: song })
+            res.status(OK).json({ ...singleResponse, data: req.file })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,

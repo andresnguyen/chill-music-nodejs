@@ -37,8 +37,10 @@ class AlbumService {
 
     async update(albumId, updateAlbum) {
         try {
-            const album = await Album.findById(albumId)
-            return await album.save()
+            const album = await Album.findByIdAndUpdate(albumId, updateAlbum, {
+                new: true
+            })
+            return album
         } catch (error) {
             throw new Error(error)
         }

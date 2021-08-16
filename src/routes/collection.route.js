@@ -17,6 +17,7 @@ router.get('/playlists/:playlistId', CollectionController.getPlaylistById)
 router.post('/playlists', CollectionController.createPlaylist)
 router.patch('/playlists/:playlistId', CollectionController.updatePlaylist)
 router.delete('/playlists/:playlistId', CollectionController.deletePlaylist)
+
 router.patch(
     '/playlists/:playlistId/add',
     CollectionController.addSongToPlaylist

@@ -37,8 +37,14 @@ class ArtistService {
 
     async update(artistId, updateArtist) {
         try {
-            const artist = await Artist.findById(artistId)
-            return await artist.save()
+            const artist = await Artist.findByIdAndUpdate(
+                artistId,
+                updateArtist,
+                {
+                    new: true
+                }
+            )
+            return artist
         } catch (error) {
             throw new Error(error)
         }

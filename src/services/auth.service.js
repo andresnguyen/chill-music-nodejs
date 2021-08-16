@@ -1,10 +1,11 @@
 import User from '../models/user.model'
-import { encodePassword, generatorAccessToken } from '../utils/auth'
+import { generateAccessToken } from '../utils/auth'
+import { toDate } from '../utils/date'
 
 class AuthService {
     async logIn(user) {
         try {
-            const token = generatorAccessToken(user._id)
+            const token = generateAccessToken(user._id)
             return token
         } catch (error) {
             throw new Error(error)
@@ -13,7 +14,7 @@ class AuthService {
 
     async register(userRegister) {
         try {
-            userRegister.password = await encodePassword(userRegister.password)
+            userRegister.dateOfBirth = toDate(userRegister.dateOfBirth)
             const user = await new User({ ...userRegister }).save()
             return user
         } catch (error) {

@@ -9,8 +9,10 @@ import { OK, INTERNAL_SERVER } from '../constants/httpStatusCode.constant'
 class UserController {
     async getAll(req, res, next) {
         try {
-            const users = await UserService.getAll(req.query)
-            return res.status(OK).json({ ...pluralResponse, data: users })
+            const { users, pagination } = await UserService.getAll(req.query)
+            return res
+                .status(OK)
+                .json({ ...pluralResponse, data: users, pagination })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
@@ -60,7 +62,7 @@ class UserController {
     async delete(req, res, next) {
         const userId = req.params.id
         try {
-            const user = await UserService.delete(userId)
+            const user = await UserService.deleteSoft(userId)
             res.status(OK).json({ ...singleResponse, data: user })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({

@@ -6,20 +6,24 @@ const songSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        path: {
+        download_url: {
             type: String,
             required: true
         },
-        imageUrl: {
+        image_path: {
             type: String,
             required: true
         },
-        genreList: {
-            type: Array,
-            default: []
+        image_path_cover: {
+            type: String,
+            required: true
         },
-        artistList: {
-            type: Array,
+        category: {
+            type: String,
+            default: ''
+        },
+        singer: {
+            type: String,
             required: true
         },
         view: {

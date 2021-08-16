@@ -9,8 +9,10 @@ import passport from 'passport'
 
 import route from './routes/index.route.js'
 import connectDatabase from './configs/database.config.js'
-import { handleError } from './middlewares/error.middleware'
 import { accessLogStream } from './utils/helper'
+import AuthMiddleware from './middlewares/auth.middleware'
+import { failedResponse } from './constants/response.constant.js'
+import { NOT_FOUND } from './constants/httpStatusCode.constant.js'
 
 const app = express()
 
@@ -45,18 +47,26 @@ else app.use(morgan('dev'))
 // connect to mongodb
 connectDatabase()
 
+// verify user
+app.use(AuthMiddleware.verifyUser)
+
 // route
 route(app)
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
     const err = new Error('Not Found')
-    err.status = 404
+    err.status = NOT_FOUND
     next(err)
 })
 
 // handle error
-app.use(handleError)
+app.use((err, req, res, next) => {
+    res.status(err.status || 500).json({
+        ...failedResponse,
+        message: err.message
+    })
+})
 
 app.listen(port, () => console.log(`Server is running at port ${port}`))
 

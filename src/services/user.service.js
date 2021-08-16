@@ -1,4 +1,6 @@
 import User from '../models/user.model'
+import { encodePassword } from '../utils/auth'
+import { toDate } from '../utils/date'
 
 class UserService {
     async getAll({ page = 0, limit = 20, q = '' }) {
@@ -11,7 +13,7 @@ class UserService {
                 .limit(limit)
                 .lean()
             const count = await User.find(query).count()
-            return { users, page, limit, count }
+            return { users, pagination: { page, limit, count } }
         } catch (error) {
             throw new Error(error)
         }
@@ -28,7 +30,11 @@ class UserService {
 
     async create(newUser) {
         try {
-            const user = await new User({ ...newUser }).save()
+            newUser.dateOfBirth = toDate(newUser.dateOfBirth)
+            const user = await new User({
+                ...newUser
+            }).save()
+            delete user._doc.password
             return user
         } catch (error) {
             throw new Error(error)
@@ -37,8 +43,14 @@ class UserService {
 
     async update(userId, updateUser) {
         try {
-            const user = await User.findById(userId)
-            return await user.save()
+            if (updateUser.dateOfBirth)
+                updateUser.dateOfBirth = toDate(updateUser.dateOfBirth)
+            if (updateUser.password)
+                updateUser.password = await encodePassword(updateUser.password)
+            const user = await User.findByIdAndUpdate(userId, updateUser, {
+                new: true
+            })
+            return user
         } catch (error) {
             throw new Error(error)
         }
@@ -55,7 +67,7 @@ class UserService {
 
     async deleteSoft(userId) {
         try {
-            const user = await User.findByIdAndDelete(userId)
+            const user = await User.findById(userId)
             user.isDelete = 1
             await user.save()
             return user

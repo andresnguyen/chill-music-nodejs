@@ -37,8 +37,14 @@ class PlaylistService {
 
     async update(playlistId, updatePlaylist) {
         try {
-            const playlist = await Playlist.findById(playlistId)
-            return await playlist.save()
+            const playlist = await Playlist.findByIdAndUpdate(
+                playlistId,
+                updatePlaylist,
+                {
+                    new: true
+                }
+            )
+            return playlist
         } catch (error) {
             throw new Error(error)
         }

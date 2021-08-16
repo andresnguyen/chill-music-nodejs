@@ -1,6 +1,7 @@
 import { verifyUser } from '../utils/auth'
 import User from '../models/user.model'
 import privateRoutes from '../constants/privateRoutes'
+import { FORBIDDEN, UNAUTHORIZED } from '../constants/httpStatusCode.constant'
 
 class AuthMiddleware {
     async verifyUser(req, res, next) {
@@ -17,12 +18,23 @@ class AuthMiddleware {
             next()
         } catch (error) {
             privateRoutes.forEach((privateRoute) => {
-                if (originalUrl.indexOf(privateRoute) === 0) {
+                if (req.originalUrl.indexOf(privateRoute) === 4) {
+                    error.status = UNAUTHORIZED
                     next(error)
                     return
                 }
             })
             next()
+        }
+    }
+
+    async verifyPermission(req, res, next) {
+        const user = req.user
+        try {
+            if (user.role < 1) throw new Error('Forbidden')
+        } catch (error) {
+            error.status = FORBIDDEN
+            next(error)
         }
     }
 }

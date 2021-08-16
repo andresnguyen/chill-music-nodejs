@@ -34,7 +34,7 @@ class SongController {
 
     async create(req, res, next) {
         try {
-            const newSong = await SongService.create(req.body)
+            const newSong = await SongService.create(req)
             res.status(OK).json({ ...singleResponse, data: newSong })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
@@ -60,10 +60,10 @@ class SongController {
     async delete(req, res, next) {
         const songId = req.params.id
         try {
-            const song = await SongService.delete(songId)
+            const song = await SongService.deleteSoft(songId)
             res.status(OK).json({ ...singleResponse, data: song })
         } catch (error) {
-            res.status(INTERNAL_SERVER).json({
+            res.status(error.statusCode || INTERNAL_SERVER).json({
                 ...failedResponse,
                 message: error.message
             })

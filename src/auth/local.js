@@ -14,6 +14,7 @@ passport.use(
                 const user = await User.findOne({ email: username })
                     .select('+password')
                     .lean()
+                console.log(user)
                 if (!user) throw new Error('User not found')
                 if (!(await verifyPassword(user.password, password)))
                     throw new Error('Password not valid')
