@@ -8,11 +8,11 @@ const playlistSchema = new mongoose.Schema(
         },
         imageUrl: {
             type: String,
-            required: true
+            default: ''
         },
         songIdList: {
             type: Array,
-            required: true
+            default: []
         },
         isActive: {
             type: Number,

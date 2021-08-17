@@ -19,7 +19,7 @@ export const generateAccessToken = (userId) => {
 }
 
 export const verifyAccessToken = async (token) => {
-    if (token) return
-    const { userId } = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-    return userId
+    if (!token) return
+    const user = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+    return user
 }

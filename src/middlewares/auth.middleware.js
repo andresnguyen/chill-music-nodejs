@@ -1,4 +1,4 @@
-import { verifyUser } from '../utils/auth'
+import { verifyAccessToken } from '../utils/auth'
 import User from '../models/user.model'
 import privateRoutes from '../constants/privateRoutes'
 import { FORBIDDEN, UNAUTHORIZED } from '../constants/httpStatusCode.constant'
@@ -10,11 +10,12 @@ class AuthMiddleware {
 
         try {
             if (token == null) throw new Error('Token is empty')
-            const userId = verifyUser(token)
+            const { userId } = await verifyAccessToken(token)
             const user = await User.findById(userId)
             if (!user) throw new Error(`User doesn't exists`)
             if (user.active === 0) throw new Error(`User isn't active`)
             req.user = user
+            console.log(user)
             next()
         } catch (error) {
             privateRoutes.forEach((privateRoute) => {

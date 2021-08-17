@@ -32,7 +32,7 @@ class CollectionController {
             )
             return res.status(OK).json({ ...singleResponse, data: songId })
         } catch (error) {
-            res.status(INTERNAL_SERVER).json({
+            res.status(error.statusCode || INTERNAL_SERVER).json({
                 ...failedResponse,
                 message: error.message
             })
@@ -47,7 +47,7 @@ class CollectionController {
             )
             res.status(OK).json({ ...singleResponse, data: songId })
         } catch (error) {
-            res.status(INTERNAL_SERVER).json({
+            res.status(error.statusCode || INTERNAL_SERVER).json({
                 ...failedResponse,
                 message: error.message
             })
@@ -102,9 +102,12 @@ class CollectionController {
     }
 
     async updatePlaylist(req, res, next) {
-        const albumId = req.params.id
+        const playlistId = req.params.playlistId
         try {
-            const album = await CollectionService.update(albumId, req.body)
+            const album = await CollectionService.updatePlaylist(
+                playlistId,
+                req.body
+            )
             res.status(OK).json({ ...singleResponse, data: album })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
@@ -160,7 +163,6 @@ class CollectionController {
             })
         }
     }
-    // HERE
     // ALBUMS=============================================
 
     async getAlbumList(req, res, next) {
@@ -290,7 +292,22 @@ class CollectionController {
                 req.user?._id,
                 req
             )
-            res.status(OK).json({ ...singleResponse, data: req.file })
+            res.status(OK).json({ ...singleResponse, data: song })
+        } catch (error) {
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message
+            })
+        }
+    }
+
+    async deleteMySong(req, res, next) {
+        try {
+            const song = await CollectionService.deleteMySong(
+                req.user?._id,
+                req.params.songId
+            )
+            res.status(OK).json({ ...singleResponse, data: song })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,

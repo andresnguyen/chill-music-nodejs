@@ -42,6 +42,10 @@ const userSchema = new mongoose.Schema(
             type: Array,
             default: []
         },
+        albumIdList: {
+            type: Array,
+            default: []
+        },
         recentSongIdList: {
             type: Array,
             default: []

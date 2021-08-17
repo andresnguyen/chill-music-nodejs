@@ -3,44 +3,52 @@ import User from '../models/user.model'
 import Artist from '../models/artist.model'
 import Playlist from '../models/playlist.model'
 import Song from '../models/song.model'
-import fileUploader from '../configs/cloudinary.config'
+import createError from 'http-errors'
 
 class CollectionService {
     // FAVORITE SONG===========================================
 
-    async getFavoriteSongIdList(userId) {
+    async getFavoriteSongList(userId) {
         try {
-            const user = await User.getById(userId)
-            const favoriteSongIdList = await Song.find({
+            const user = await User.findById(userId)
+            const favoriteSongList = await Song.find({
                 _id: { $in: user.favoriteSongIdList }
             })
-            return favoriteSongIdList
+            return favoriteSongList
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
     async createFavoriteSong(userId, songId) {
         try {
-            const user = await User.getById(userId)
+            const user = await User.findById(userId)
+            if (user.favoriteSongIdList.includes(songId))
+                throw new createError.BadRequest(
+                    'This song exists in your favorite song list'
+                )
             user.favoriteSongIdList.unshift(songId)
             await user.save()
-            return songId
+            return true
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
     async deleteFavoriteSong(userId, songId) {
         try {
-            const user = await User.getById(userId)
+            const user = await User.findById(userId)
+            if (!user.favoriteSongIdList.includes(songId))
+                throw new createError.BadRequest(
+                    'This song does not exist in your favorite song list'
+                )
             user.favoriteSongIdList = user.favoriteSongIdList.filter(
                 (favoriteSongId) => favoriteSongId !== songId
             )
             await user.save()
-            return songId
+            return true
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
@@ -54,73 +62,94 @@ class CollectionService {
             })
             return playlistList
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
     async getPlaylistById(playlistId) {
         try {
-            const playlist = await Playlist.getById(playlistId)
+            const playlist = await Playlist.findById(playlistId)
             return playlist
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
-    async createPlaylist(userId, playlist) {
+    async createPlaylist(userId, newPlaylist) {
         try {
             const user = await User.findById(userId)
-            const playlist = await new Playlist({ name: playlist.name })
+            const playlist = await new Playlist({ ...newPlaylist }).save()
             user.playlistIdList.unshift(playlist._id)
+            await user.save()
             return playlist
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
-    async updatePlaylist() {
-        const albumId = req.params.id
+    async updatePlaylist(playlistId, updatePlaylist) {
         try {
-            const album = await AlbumService.update(albumId, req.body)
+            console.log(playlistId)
+            const playlist = await Playlist.findByIdAndUpdate(
+                playlistId,
+                updatePlaylist,
+                {
+                    new: true
+                }
+            )
+            return playlist
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
     async deletePlaylist(userId, playlistId) {
         try {
-            const user = await User.getById(userId)
+            const user = await User.findById(userId)
+            if (!user.playlistIdList.includes(playlistId))
+                throw new createError.BadRequest(
+                    `Playlist not exists in current user's playlist`
+                )
             user.playlistIdList = user.playlistIdList.filter(
                 (playlistIdItem) => playlistIdItem !== playlistId
             )
             await user.save()
+            await Playlist.findByIdAndUpdate(playlistId, { isDelete: 1 })
             return true
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
     async addSongToPlaylist(userId, playlistId, songId) {
         try {
             const playlist = await Playlist.findById(playlistId)
+            if (playlist.songIdList.includes(songId))
+                throw new createError.BadRequest(
+                    'This song exists in the playlist'
+                )
             playlist.songIdList.unshift(songId)
             await playlist.save()
             return true
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
     async deleteSongFromPlaylist(userId, playlistId, songId) {
         try {
-            const playlist = await Playlist.getById(playlistId)
+            const playlist = await Playlist.findById(playlistId)
+            if (!playlist.songIdList.includes(songId))
+                throw new createError.BadRequest(
+                    'This song does not exist in the playlist'
+                )
             playlist.songIdList = playlist.songIdList.filter(
                 (songIdItem) => songIdItem !== songId
             )
             await playlist.save()
             return true
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
@@ -134,40 +163,48 @@ class CollectionService {
             })
             return albumList
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
     async getAlbumById(userId, albumId) {
         try {
-            const album = await Album.getById(albumId)
+            const album = await Album.findById(albumId)
             return album
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
     async addAlbumToCollection(userId, albumId) {
         try {
             const user = await User.findById(userId)
+            if (user.albumIdList.includes(albumId))
+                throw new createError.BadRequest(
+                    'This album exists in your album list'
+                )
             user.albumIdList.unshift(albumId)
             await user.save()
             return true
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
     async deleteAlbumFromCollection(userId, albumId) {
         try {
             const user = await User.findById(userId)
+            if (!user.albumIdList.includes(albumId))
+                throw new createError.BadRequest(
+                    'This album does not exist in your album list'
+                )
             user.albumIdList = user.albumIdList.filter(
                 (albumIdItem) => albumIdItem !== userId
             )
             await user.save()
             return true
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
@@ -175,37 +212,37 @@ class CollectionService {
 
     async getArtistList(userId) {
         try {
-            const user = await User.getById(userId)
+            const user = await User.findById(userId)
             const artistList = await Artist.find({
                 _id: { $in: user.artistIdList }
             })
             return artistList
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
     async addArtistToCollection(userId, artistId) {
         try {
-            const user = await User.getById(userId)
+            const user = await User.findById(userId)
             user.artistIdList.unshift(artistId)
             await user.save()
             return true
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
     async deleteArtistFromCollection(userId, artistId) {
         try {
-            const user = await User.getById(userId)
+            const user = await User.findById(userId)
             user.artistIdList = user.artistIdList.filter(
                 (artistIdItem) => artistIdItem !== artistId
             )
             await user.save()
             return true
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
@@ -213,31 +250,44 @@ class CollectionService {
 
     async getMySongList(userId) {
         try {
-            const user = await User.getById(userId)
+            const user = await User.findById(userId)
             const songUploadList = await Song.find({
                 _id: { $in: user.songUploadIdList }
             })
             return songUploadList
         } catch (error) {
-            throw new Error(error)
+            throw error
         }
     }
 
     async createMySong(userId, req) {
         try {
-            if (!req.file) throw new Error('No file uploaded')
+            if (!req.file) throw new createError.BadRequest('No file uploaded')
             const user = await User.findById(userId)
             const song = await new Song({
                 name: req.file.originalname,
-                path: req.file.path,
-                imageUrl: user.avatarUrl,
-                artistList: [user._id]
+                download_url: req.file.path,
+                image_path: user.avatarUrl,
+                singer: [user._id]
             }).save()
-            user.songUploadIdList.unshift()
+            user.songUploadIdList.unshift(song._id)
             user.save()
             return song
         } catch (error) {
-            throw new Error(error)
+            throw error
+        }
+    }
+
+    async deleteMySong(userId, songId) {
+        try {
+            const user = await User.findById(userId)
+            user.songUploadIdList = user.songUploadIdList.filter(
+                (songIdItem) => songIdItem !== songId
+            )
+            await user.save()
+            return true
+        } catch (error) {
+            throw error
         }
     }
 }

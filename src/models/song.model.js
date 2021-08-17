@@ -23,7 +23,7 @@ const songSchema = new mongoose.Schema(
             default: ''
         },
         singer: {
-            type: String,
+            type: Array,
             required: true
         },
         view: {

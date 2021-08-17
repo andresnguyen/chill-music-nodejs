@@ -18,12 +18,12 @@ router.post('/playlists', CollectionController.createPlaylist)
 router.patch('/playlists/:playlistId', CollectionController.updatePlaylist)
 router.delete('/playlists/:playlistId', CollectionController.deletePlaylist)
 
-router.patch(
+router.post(
     '/playlists/:playlistId/add',
     CollectionController.addSongToPlaylist
 )
 router.delete(
-    '/playlists/:id/delete',
+    '/playlists/:playlistId/delete',
     CollectionController.deleteSongFromPlaylist
 )
 
@@ -51,5 +51,7 @@ router.post(
     fileUploader.single('file'),
     CollectionController.createMySong
 )
+
+router.delete('/my-songs/:songId', CollectionController.deleteMySong)
 
 export default router
