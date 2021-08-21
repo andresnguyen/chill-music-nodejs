@@ -15,7 +15,7 @@ class AuthService {
 
     async register(userRegister) {
         try {
-            if (await user.findOne({ email: userRegister.email }))
+            if (await User.findOne({ email: userRegister.email }))
                 throw createError.BadRequest(`Email already exists`)
             userRegister.dateOfBirth = toDate(userRegister.dateOfBirth)
             const user = await new User({ ...userRegister }).save()
