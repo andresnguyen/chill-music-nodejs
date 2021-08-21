@@ -299,3 +299,7 @@
 ::1 - - [17/Aug/2021:08:22:45 +0000] "POST /api/collection/albums HTTP/1.1" 500 50 "-" "PostmanRuntime/7.28.3"
 ::1 - - [17/Aug/2021:08:24:45 +0000] "GET /api/collection/albums HTTP/1.1" 200 11 "-" "PostmanRuntime/7.28.3"
 ::1 - - [17/Aug/2021:08:28:44 +0000] "GET /api/collection/artists HTTP/1.1" 200 11 "-" "PostmanRuntime/7.28.3"
+::1 - - [21/Aug/2021:09:53:17 +0000] "POST /api/collection/playlists HTTP/1.1" 401 31 "-" "PostmanRuntime/7.28.3"
+::1 - - [21/Aug/2021:09:53:19 +0000] "POST /api/collection/playlists HTTP/1.1" 401 31 "-" "PostmanRuntime/7.28.3"
+::1 - - [21/Aug/2021:09:53:21 +0000] "POST /api/collection/playlists HTTP/1.1" 401 31 "-" "PostmanRuntime/7.28.3"
+::1 - - [21/Aug/2021:09:53:28 +0000] "POST /api/collection/playlists HTTP/1.1" 200 206 "-" "PostmanRuntime/7.28.3"

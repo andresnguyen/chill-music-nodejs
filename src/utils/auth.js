@@ -20,6 +20,9 @@ export const generateAccessToken = (userId) => {
 
 export const verifyAccessToken = async (token) => {
     if (!token) return
-    const user = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+    const user = await jwt.verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET || 'loveyou3000'
+    )
     return user
 }

@@ -89,7 +89,6 @@ class CollectionService {
 
     async updatePlaylist(playlistId, updatePlaylist) {
         try {
-            console.log(playlistId)
             const playlist = await Playlist.findByIdAndUpdate(
                 playlistId,
                 updatePlaylist,
