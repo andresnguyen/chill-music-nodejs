@@ -303,3 +303,5 @@
 ::1 - - [21/Aug/2021:09:53:19 +0000] "POST /api/collection/playlists HTTP/1.1" 401 31 "-" "PostmanRuntime/7.28.3"
 ::1 - - [21/Aug/2021:09:53:21 +0000] "POST /api/collection/playlists HTTP/1.1" 401 31 "-" "PostmanRuntime/7.28.3"
 ::1 - - [21/Aug/2021:09:53:28 +0000] "POST /api/collection/playlists HTTP/1.1" 200 206 "-" "PostmanRuntime/7.28.3"
+::1 - - [21/Aug/2021:10:11:24 +0000] "GET /api/songs HTTP/1.1" 200 146553 "-" "PostmanRuntime/7.28.3"
+::1 - - [21/Aug/2021:10:12:53 +0000] "GET /api/songs?category=Pop HTTP/1.1" 200 146553 "-" "PostmanRuntime/7.28.3"

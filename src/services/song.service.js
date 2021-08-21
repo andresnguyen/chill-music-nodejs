@@ -2,10 +2,10 @@ import Song from '../models/song.model'
 import createError from 'http-errors'
 
 class SongService {
-    async getAll({ page = 0, limit = 20, q = '' }) {
+    async getAll({ page = 0, limit = 20, q = '', category }) {
         page = Number.parseInt(page)
         limit = Number.parseInt(limit)
-        const query = q ? { name: new RegExp(q, 'i') } : {}
+        const query = q ? { name: new RegExp(q, 'i'), category } : {}
         try {
             const songs = await Song.find(query)
                 .skip(page * limit)
