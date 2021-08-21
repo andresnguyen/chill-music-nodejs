@@ -19,7 +19,8 @@ class AuthService {
                 throw createError.BadRequest(`Email already exists`)
             userRegister.dateOfBirth = toDate(userRegister.dateOfBirth)
             const user = await new User({ ...userRegister }).save()
-            return user
+            const token = generateAccessToken(user._id)
+            return { user, token }
         } catch (error) {
             throw error
         }

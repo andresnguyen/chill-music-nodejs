@@ -26,8 +26,8 @@ class AuthController {
 
     async register(req, res, next) {
         try {
-            const user = await AuthService.register(req.body)
-            res.status(OK).json({ ...singleResponse, data: user })
+            const { user, token } = await AuthService.register(req.body)
+            res.status(OK).json({ ...singleResponse, data: token, user })
         } catch (error) {
             res.status(INTERNAL_SERVER).json({
                 ...failedResponse,
