@@ -6,6 +6,8 @@ class SongService {
         page = Number.parseInt(page)
         limit = Number.parseInt(limit)
         const query = q ? { name: new RegExp(q, 'i'), category } : {}
+        const a = await this.getAllCategory()
+        console.log({ a })
         try {
             const songs = await Song.find(query)
                 .skip(page * limit)
@@ -75,6 +77,17 @@ class SongService {
             if (!song) throw new createError.BadRequest(`Song doesn't exist`)
             song.isDelete = 1
             return await song.save()
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async getAllCategory() {
+        try {
+            const result = new Set()
+            const songs = await Song.find({}).lean()
+            songs.forEach((song) => result.add(song.category))
+            return Array.from(result)
         } catch (error) {
             throw error
         }

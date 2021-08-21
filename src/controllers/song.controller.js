@@ -19,6 +19,18 @@ class SongController {
         }
     }
 
+    async getAllCategory(req, res, next) {
+        try {
+            const songs = await SongService.getAllCategory(req.query)
+            return res.status(OK).json({ ...pluralResponse, data: songs })
+        } catch (error) {
+            res.status(INTERNAL_SERVER).json({
+                ...failedResponse,
+                message: error.message
+            })
+        }
+    }
+
     async getById(req, res, next) {
         const songId = req.params.id
         try {
