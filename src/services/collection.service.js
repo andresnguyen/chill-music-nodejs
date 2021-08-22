@@ -213,7 +213,7 @@ class CollectionService {
         try {
             const user = await User.findById(userId)
             const artistList = await Artist.find({
-                _id: { $in: user.artistIdList }
+                _id: { $in: user.followingArtistIdList }
             })
             return artistList
         } catch (error) {
@@ -224,7 +224,7 @@ class CollectionService {
     async addArtistToCollection(userId, artistId) {
         try {
             const user = await User.findById(userId)
-            user.artistIdList.unshift(artistId)
+            user.followingArtistIdList.unshift(artistId)
             await user.save()
             return true
         } catch (error) {
@@ -235,8 +235,8 @@ class CollectionService {
     async deleteArtistFromCollection(userId, artistId) {
         try {
             const user = await User.findById(userId)
-            user.artistIdList = user.artistIdList.filter(
-                (artistIdItem) => artistIdItem !== artistId
+            user.followingArtistIdList = user.followingArtistIdList.filter(
+                (followingArtistId) => followingArtistId !== artistId
             )
             await user.save()
             return true
