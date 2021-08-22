@@ -266,7 +266,7 @@ class CollectionService {
             const song = await new Song({
                 name: req.file.originalname,
                 download_url: req.file.path,
-                image_path: user.avatarUrl,
+                image_path: user.avatarUrl || 'null',
                 singer: [user._id]
             }).save()
             user.songUploadIdList.unshift(song._id)

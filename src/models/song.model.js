@@ -15,12 +15,10 @@ const songSchema = new mongoose.Schema(
             required: true
         },
         image_path_cover: {
-            type: String,
-            required: true
+            type: String
         },
         category: {
-            type: String,
-            default: ''
+            type: String
         },
         singer: {
             type: Array,
